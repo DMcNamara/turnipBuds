@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
 import {
 	FB_API_KEY,
@@ -11,10 +12,8 @@ import {
 	FB_STORAGE_BUCKET,
 } from 'react-native-dotenv';
 import { combineReducers, createStore } from 'redux';
-import { firestoreReducer } from 'redux-firestore';
+import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 
-console.log('here');
-console.log(firebase);
 firebase.initializeApp({
 	apiKey: FB_API_KEY,
 	authDomain: FB_AUTH_DOMAIN,
@@ -32,5 +31,17 @@ const rootReducer = combineReducers({
 	firestore: firestoreReducer,
 });
 
+const rrfConfig = {
+	userProfile: 'users',
+	useFirestoreForProfile: true,
+};
+
 const initialState = {};
 export const store = createStore(rootReducer, initialState);
+
+export const rrfProps = {
+	firebase,
+	config: rrfConfig,
+	dispatch: store.dispatch,
+	createFirestoreInstance, // <- needed if using firestore
+};

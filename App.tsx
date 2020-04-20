@@ -1,44 +1,63 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider, useSelector } from 'react-redux';
-import { ReactReduxFirebaseProvider, isEmpty } from 'react-redux-firebase';
+import { isEmpty, ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { FriendsContainer } from './src/friends/FriendsContainer';
+import { HomeContainer } from './src/home/HomeContainer';
 import { LoginScreen } from './src/login/LoginScreen';
-import { store, rrfProps } from './src/store';
+import { rrfProps, store } from './src/store';
+import { SettingsContainer } from './src/settings/SettingsContainer';
+import { User } from 'firebase';
 
-const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-function HomeScreen() {
+function Tabs(user: User) {
 	return (
-		<View
-			style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-		>
-			<Text>Home Screen</Text>
-		</View>
+		<NavigationContainer>
+			<Tab.Navigator shifting={true}>
+				<Tab.Screen
+					name='Me'
+					component={HomeContainer}
+					options={{
+						tabBarIcon: () => <MaterialIcons name='person' size={26} />,
+					}}
+					initialParams={ user }
+				/>
+				<Tab.Screen
+					name='Friends'
+					component={FriendsContainer}
+					options={{
+						tabBarIcon: () => <MaterialIcons name='people' size={26} />,
+					}}
+				/>
+				<Tab.Screen
+					name='Settings'
+					component={SettingsContainer}
+					options={{
+						tabBarIcon: () => (
+							<MaterialIcons name='settings' size={26} />
+						),
+					}}
+				/>
+			</Tab.Navigator>
+		</NavigationContainer>
 	);
 }
 
 function Navigation() {
-	const currentUser = useSelector((state: any) => state.firestore.data.currentUser);
+	const currentUser = useSelector(
+		(state: any) => state.firestore.data.currentUser
+	);
 
 	return (
-		<NavigationContainer>
-			<Stack.Navigator>
-				{isEmpty(currentUser) ? (
-					<>
-						<Stack.Screen name="Home" component={HomeScreen} />
-					</>
-				) : (
-					<>
-						<Stack.Screen
-							name="Login"
-							component={LoginScreen}
-						/>
-					</>
-				)}
-			</Stack.Navigator>
-		</NavigationContainer>
+		!isEmpty(currentUser) ? (
+			<Tabs user={currentUser}/>
+		) : (
+			<LoginScreen />
+		)
 	);
 }
 
@@ -46,17 +65,10 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<ReactReduxFirebaseProvider {...rrfProps}>
-				<Navigation />
+				<PaperProvider>
+					<Navigation />
+				</PaperProvider>
 			</ReactReduxFirebaseProvider>
 		</Provider>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

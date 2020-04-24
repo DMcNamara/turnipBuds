@@ -1,6 +1,5 @@
 import { RouteProp } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { User } from 'firebase';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -8,7 +7,7 @@ import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
 import { WeekInput, WeekPrices } from '../common/week-input/WeekInput';
 
 type HomeContainerParamList = {
-	Home: { user: User };
+	Home: { uid: string };
 };
 
 export function HomeContainer({ route }: any) {
@@ -19,7 +18,7 @@ export function HomeContainer({ route }: any) {
 			<Stack.Screen
 				name="Home"
 				component={Home}
-				initialParams={{ user: route.params.user }}
+				initialParams={{ uid: route.params.uid }}
 			/>
 		</Stack.Navigator>
 	);
@@ -30,10 +29,10 @@ type Props = {
 	route: HomeScreenRouteProp;
 };
 function Home({ route }: Props) {
-	const uid = Object.keys(route.params.user)[0];
-	if (!uid) {
+	if (!route.params.uid) {
 		return <></>;
 	}
+	const uid = route.params.uid;
 	const firestore = useFirestore();
 	useFirestoreConnect([{ collection: 'weeks', where: [['uid', '==', uid]] }]);
 	const weekPrice = useSelector<any, WeekPrices>(

@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { FriendsContainer } from './src/friends/FriendsContainer';
 import { HomeContainer } from './src/home/HomeContainer';
@@ -11,8 +11,12 @@ import { LoginScreen } from './src/login/LoginScreen';
 import { SettingsContainer } from './src/settings/SettingsContainer';
 import { rrfProps, store, useTypedSelector } from './src/store';
 
-const Tab = createMaterialBottomTabNavigator();
-
+export type TabsScreenList = {
+	Me: { uid: string}
+	Friends: { uid: string }
+	Settings: {}
+};
+const Tab = createMaterialBottomTabNavigator<TabsScreenList>();
 function Tabs(props: { uid: string }) {
 	return (
 		<NavigationContainer>
@@ -35,6 +39,7 @@ function Tabs(props: { uid: string }) {
 							<MaterialIcons name="people" size={26} />
 						),
 					}}
+					initialParams={{ uid: props.uid }}
 				/>
 				<Tab.Screen
 					name="Settings"

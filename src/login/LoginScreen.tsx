@@ -6,10 +6,8 @@ import {
 	GOOGLE_ANDROID_CLIENT_ID,
 	GOOGLE_IOS_CLIENT_ID,
 } from 'react-native-dotenv';
-import { useFirebase } from 'react-redux-firebase';
 import { useDispatch } from 'react-redux';
-import { Paragraph } from 'react-native-paper';
-import { useTypedSelector } from '../store';
+import { useFirebase } from 'react-redux-firebase';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
 
 const config: Google.GoogleLogInConfig = {
@@ -20,9 +18,6 @@ const config: Google.GoogleLogInConfig = {
 export function LoginScreen() {
 	const dispatch = useDispatch();
 	const fb = useFirebase();
-	const data = useTypedSelector(
-		(state) => state.firestore
-	);
 
 	async function login() {
 		const res = await Google.logInAsync(config);
@@ -51,9 +46,11 @@ export function LoginScreen() {
 							return userData;
 						}
 					})
-					.then(userData => dispatch(setCurrentUserAction(userData.user?.uid)));
+					.then((userData) =>
+						dispatch(setCurrentUserAction(userData.user?.uid))
+					);
 
-					await fb.reloadAuth(credential);
+				await fb.reloadAuth(credential);
 			}
 		}
 	}
@@ -62,7 +59,6 @@ export function LoginScreen() {
 		<View style={{ marginTop: 50 }}>
 			<Text>Sign In With Google</Text>
 			<Button title="Sign in with Google" onPress={() => login()} />
-			<Paragraph>{JSON.stringify(data, null, 2)}</Paragraph>
 		</View>
 	);
 }

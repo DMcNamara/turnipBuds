@@ -1,12 +1,32 @@
+import { RouteProp } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { TabsScreenList } from '../../App';
+import { FriendsIndex } from './FriendsIndex';
 
-export function FriendsContainer() {
+
+type Props = {
+	route: RouteProp<TabsScreenList, 'Friends'>;
+}
+
+export type FriendsContainerScreenList = {
+	Friends: { uid: string };
+};
+export function FriendsContainer(props: Props) {
+	const Stack = createStackNavigator<FriendsContainerScreenList>();
+	const uid = props.route.params.uid;
+
+	if (!uid) {
+		return <></>;
+	}
+
 	return (
-		<View
-			style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-		>
-			<Text>Friends Screen</Text>
-		</View>
+		<Stack.Navigator>
+			<Stack.Screen
+				name="Friends"
+				component={FriendsIndex}
+				initialParams={{ uid: props.route.params.uid }}
+			/>
+		</Stack.Navigator>
 	);
 }

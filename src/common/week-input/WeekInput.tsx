@@ -4,8 +4,8 @@ import { Col, Grid, Row } from 'react-native-easy-grid';
 import { TextInput } from 'react-native-paper';
 
 export type WeekPrices = {
-	id: string;
 	start: Date;
+	id: string;
 	islandBuyPrice: number;
 	monAM: number;
 	monPM: number;
@@ -136,7 +136,7 @@ export function WeekInput(props: {
 			</Row>
 			<Row>
 				<Col>
-					<Text>Friday</Text>
+					<Text>Saturday</Text>
 				</Col>
 				<Col>
 					<HalfDayInput

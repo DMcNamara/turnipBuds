@@ -2,16 +2,20 @@ import { RouteProp } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useFirestore, useFirestoreConnect } from 'react-redux-firebase';
+import { TabsScreenList } from '../../App';
 import { WeekInput, WeekPrices } from '../common/week-input/WeekInput';
+import { useTypedSelector } from '../store';
 
-type HomeContainerParamList = {
-	Home: { uid: string };
+type Props = {
+	route: RouteProp<TabsScreenList, 'Me'>;
 };
 
-export function HomeContainer({ route }: any) {
-	const Stack = createStackNavigator<HomeContainerParamList>();
+type HomeContainerScreenList = {
+	Home: { uid: string };
+};
+export function HomeContainer({ route }: Props) {
+	const Stack = createStackNavigator<HomeContainerScreenList>();
 
 	return (
 		<Stack.Navigator>
@@ -24,18 +28,17 @@ export function HomeContainer({ route }: any) {
 	);
 }
 
-type HomeScreenRouteProp = RouteProp<HomeContainerParamList, 'Home'>;
-type Props = {
-	route: HomeScreenRouteProp;
+type HomeProps = {
+	route: RouteProp<HomeContainerScreenList, 'Home'>;
 };
-function Home({ route }: Props) {
+function Home({ route }: HomeProps) {
 	if (!route.params.uid) {
 		return <></>;
 	}
 	const uid = route.params.uid;
 	const firestore = useFirestore();
 	useFirestoreConnect([{ collection: 'weeks', where: [['uid', '==', uid]] }]);
-	const weekPrice = useSelector<any, WeekPrices>(
+	const weekPrice = useTypedSelector<WeekPrices>(
 		({ firestore: { ordered } }) => ordered.weeks && ordered.weeks[0]
 	);
 
@@ -53,7 +56,7 @@ function Home({ route }: Props) {
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
-			<View>
+			<View style={{ margin: 15 }}>
 				<Text>Home Screen</Text>
 				<WeekInput weekPrices={weekPrice} onChange={onChange} />
 			</View>

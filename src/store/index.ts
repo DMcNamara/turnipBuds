@@ -15,7 +15,7 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { FirestoreReducer } from 'react-redux-firebase';
 import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
-import { authReducer } from './auth/auth.reducer';
+import { authReducer, AuthState } from './auth/auth.reducer';
 
 firebase.initializeApp({
 	apiKey: FB_API_KEY,
@@ -30,12 +30,12 @@ firebase.initializeApp({
 
 firebase.firestore();
 
-interface AppState {
+export interface RootState {
 	firestore: FirestoreReducer.Reducer;
 	auth: AuthState;
 }
-const rootReducer = combineReducers<AppState>({
-	firestore: (firestoreReducer as unknown) as FirestoreReducer.Reducer,
+const rootReducer = combineReducers<RootState>({
+	firestore: firestoreReducer as any,
 	auth: authReducer,
 });
 

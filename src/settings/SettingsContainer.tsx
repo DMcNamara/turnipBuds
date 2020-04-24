@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { Button, Paragraph } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import { actionTypes as fat } from 'redux-firestore';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
@@ -9,7 +9,6 @@ import { setCurrentUserAction } from '../store/auth/auth.actions';
 export function SettingsContainer() {
 	const firebase = useFirebase();
 	const dispatch = useDispatch();
-	const data = useSelector((state: any) => state.firestore);
 
 	const onLogout = async () => {
 		dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
@@ -36,7 +35,6 @@ export function SettingsContainer() {
 			>
 				<Text>Settings Screen</Text>
 				<Button onPress={onLogout}>Log Out</Button>
-				<Paragraph>{JSON.stringify(data, null, 2)}</Paragraph>
 			</View>
 		</ScrollView>
 	);

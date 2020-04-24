@@ -4,41 +4,44 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider, useSelector } from 'react-redux';
-import { isEmpty, ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { FriendsContainer } from './src/friends/FriendsContainer';
 import { HomeContainer } from './src/home/HomeContainer';
 import { LoginScreen } from './src/login/LoginScreen';
-import { rrfProps, store } from './src/store';
 import { SettingsContainer } from './src/settings/SettingsContainer';
-import { User } from 'firebase';
+import { rrfProps, store, useTypedSelector } from './src/store';
 
 const Tab = createMaterialBottomTabNavigator();
 
-function Tabs(user: User) {
+function Tabs(props: { uid: string }) {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator shifting={true}>
 				<Tab.Screen
-					name='Me'
+					name="Me"
 					component={HomeContainer}
 					options={{
-						tabBarIcon: () => <MaterialIcons name='person' size={26} />,
+						tabBarIcon: () => (
+							<MaterialIcons name="person" size={26} />
+						),
 					}}
-					initialParams={ user }
+					initialParams={{ uid: props.uid }}
 				/>
 				<Tab.Screen
-					name='Friends'
+					name="Friends"
 					component={FriendsContainer}
 					options={{
-						tabBarIcon: () => <MaterialIcons name='people' size={26} />,
+						tabBarIcon: () => (
+							<MaterialIcons name="people" size={26} />
+						),
 					}}
 				/>
 				<Tab.Screen
-					name='Settings'
+					name="Settings"
 					component={SettingsContainer}
 					options={{
 						tabBarIcon: () => (
-							<MaterialIcons name='settings' size={26} />
+							<MaterialIcons name="settings" size={26} />
 						),
 					}}
 				/>
@@ -48,17 +51,8 @@ function Tabs(user: User) {
 }
 
 function Navigation() {
-	const currentUser = useSelector(
-		(state: any) => state.firestore.data.currentUser
-	);
-
-	return (
-		!isEmpty(currentUser) ? (
-			<Tabs user={currentUser}/>
-		) : (
-			<LoginScreen />
-		)
-	);
+	const uid = useTypedSelector(({ auth }) => auth.currentUID);
+	return !!uid ? <Tabs uid={uid} /> : <LoginScreen />;
 }
 
 export default function App() {

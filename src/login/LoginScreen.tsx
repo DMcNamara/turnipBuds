@@ -1,12 +1,16 @@
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Text, View } from 'react-native';
 import {
 	GOOGLE_ANDROID_CLIENT_ID,
 	GOOGLE_IOS_CLIENT_ID,
 } from 'react-native-dotenv';
-import { useFirebase, useFirestoreConnect } from 'react-redux-firebase';
+import { useFirebase } from 'react-redux-firebase';
+import { useDispatch } from 'react-redux';
+import { Paragraph } from 'react-native-paper';
+import { useTypedSelector } from '../store';
+import { setCurrentUserAction } from '../store/auth/auth.actions';
 
 const config: Google.GoogleLogInConfig = {
 	iosClientId: GOOGLE_IOS_CLIENT_ID,
@@ -14,23 +18,21 @@ const config: Google.GoogleLogInConfig = {
 };
 
 export function LoginScreen() {
-	const [ userId, setUserId ] = useState<string>('');
-
-	useFirestoreConnect([
-		{ collection: 'users', doc: userId, storeAs: 'currentUser' }
-	  ])
+	const dispatch = useDispatch();
 	const fb = useFirebase();
+	const data = useTypedSelector(
+		(state) => state.firestore
+	);
 
 	async function login() {
 		const res = await Google.logInAsync(config);
-
 		if (res.type === 'success') {
 			const credential = firebase.auth.GoogleAuthProvider.credential(
 				res.idToken,
 				res.accessToken
 			);
 
-			const userData = await fb.auth().signInWithCredential(credential);
+			const userData = await fb.login({ credential, provider: 'google' });
 
 			if (userData) {
 				await fb
@@ -46,22 +48,21 @@ export function LoginScreen() {
 									return userData;
 								});
 						} else {
-							if (userData.user) {
-								setUserId(userData.user?.uid);
-							}
+							return userData;
 						}
-					});
+					})
+					.then(userData => dispatch(setCurrentUserAction(userData.user?.uid)));
+
+					await fb.reloadAuth(credential);
 			}
 		}
 	}
 
 	return (
-		<View style={{marginTop: 50}}>
+		<View style={{ marginTop: 50 }}>
 			<Text>Sign In With Google</Text>
-			<Button
-				title="Sign in with Google"
-				onPress={() => login()}
-			/>
+			<Button title="Sign in with Google" onPress={() => login()} />
+			<Paragraph>{JSON.stringify(data, null, 2)}</Paragraph>
 		</View>
 	);
 }

@@ -11,8 +11,11 @@ import {
 	FB_PROJECT_ID,
 	FB_STORAGE_BUCKET,
 } from 'react-native-dotenv';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { FirestoreReducer } from 'react-redux-firebase';
 import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
+import { authReducer } from './auth/auth.reducer';
 
 firebase.initializeApp({
 	apiKey: FB_API_KEY,
@@ -27,17 +30,27 @@ firebase.initializeApp({
 
 firebase.firestore();
 
-const rootReducer = combineReducers({
-	firestore: firestoreReducer,
+interface AppState {
+	firestore: FirestoreReducer.Reducer;
+	auth: AuthState;
+}
+const rootReducer = combineReducers<AppState>({
+	firestore: (firestoreReducer as unknown) as FirestoreReducer.Reducer,
+	auth: authReducer,
 });
 
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 const rrfConfig = {
-	userProfile: 'users',
 	useFirestoreForProfile: true,
+	userProfile: 'users',
+	enableRedirectHandling: false,
+	enableLogging: true,
+	updateProfileOnLogin: true,
+	onAuthStateChanged: (args: any) => console.log(args),
 };
 
-const initialState = {};
-export const store = createStore(rootReducer, initialState);
+export const store = createStore(rootReducer);
 
 export const rrfProps = {
 	firebase,

@@ -136,7 +136,7 @@ export function WeekInput(props: {
 			</Row>
 			<Row>
 				<Col>
-					<Text>Friday</Text>
+					<Text>Saturday</Text>
 				</Col>
 				<Col>
 					<HalfDayInput

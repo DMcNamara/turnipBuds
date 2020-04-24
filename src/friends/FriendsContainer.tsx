@@ -2,7 +2,7 @@ import { RouteProp } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { TabsScreenList } from '../../App';
-import { FriendsIndex, FriendsIndexProps } from './FriendsIndex';
+import { FriendsIndex } from './FriendsIndex';
 
 
 type Props = {

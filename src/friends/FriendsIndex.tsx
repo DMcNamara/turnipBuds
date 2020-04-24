@@ -1,5 +1,6 @@
+import { RouteProp } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import { firestoreConnect, populate } from 'react-redux-firebase';
@@ -12,12 +13,11 @@ import {
 } from '../store/collections';
 import { AddFriendModal } from './add-friends-modal/AddFriendModal';
 import { FriendCard } from './FriendCard';
-import { RouteProp } from '@react-navigation/native';
 import { FriendsContainerScreenList } from './FriendsContainer';
 
 export type FriendsIndexProps = {
 	route: RouteProp<FriendsContainerScreenList, 'Friends'>;
-}
+};
 
 type Props = FriendsIndexProps & PropsFromRedux;
 export function Component(props: Props) {
@@ -34,12 +34,10 @@ export function Component(props: Props) {
 	};
 
 	return (
-		<View style={{ flex: 1, marginHorizontal: 15, marginVertical: 15 }}>
+		<View style={{ flex: 1, margin: 15 }}>
 			<FlatList
 				data={friends}
-				renderItem={({
-					item: { friend },
-				}: ListRenderItemInfo<Friend>) => (
+				renderItem={({ item: { friend } }) => (
 					<FriendCard friend={friend} />
 				)}
 				keyExtractor={(item) => item.friend.id}

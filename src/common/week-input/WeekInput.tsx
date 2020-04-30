@@ -2,28 +2,11 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { TextInput } from 'react-native-paper';
-
-export type WeekPrices = {
-	start: Date;
-	id: string;
-	islandBuyPrice: number;
-	monAM: number;
-	monPM: number;
-	tueAM: number;
-	tuePM: number;
-	wedAM: number;
-	wedPM: number;
-	thuAM: number;
-	thuPM: number;
-	friAM: number;
-	friPM: number;
-	satAM: number;
-	satPM: number;
-};
+import { WeekPrice } from '../../store/collections';
 
 export function WeekInput(props: {
-	weekPrices: WeekPrices;
-	onChange: (name: keyof WeekPrices, price: string) => void;
+	weekPrices: WeekPrice;
+	onChange: (name: keyof WeekPrice, price: string) => void;
 }) {
 	if (!props.weekPrices) {
 		return <></>;
@@ -158,14 +141,14 @@ export function WeekInput(props: {
 }
 
 function HalfDayInput(props: {
-	name: keyof WeekPrices;
-	value: number;
-	onChange: (name: keyof WeekPrices, text: string) => void;
+	name: keyof WeekPrice;
+	value: number | null;
+	onChange: (name: keyof WeekPrice, text: string) => void;
 }) {
 	return (
 		<TextInput
 			label=''
-			value={props.value.toString()}
+			value={props.value ? props.value.toString() : undefined}
 			mode='outlined'
 			dense
 			onChangeText={(text) => props.onChange(props.name, text)}

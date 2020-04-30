@@ -21,6 +21,7 @@ export class WeekPrice {
 	}
 
 	start: Date | null = null;
+	id: string = '';
 	islandBuyPrice: number | null = null;
 	monAM: number | null = null;
 	monPM: number | null = null;

@@ -3,14 +3,19 @@ import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
-import { firestoreConnect, populate } from 'react-redux-firebase';
+import {
+	ExtendedFirebaseInstance,
+	firestoreConnect,
+	populate,
+} from 'react-redux-firebase';
 import { compose } from 'redux';
-import { RootState } from '../store';
+import { Functions, RootState } from '../store';
 import {
 	Friend,
 	FriendsCollection,
 	UsersCollection,
 } from '../store/collections';
+import { toastAction } from '../store/toast/toast.actions';
 import { AddFriendModal } from './add-friends-modal/AddFriendModal';
 import { FriendCard } from './FriendCard';
 import { FriendsContainerScreenList } from './FriendsContainer';
@@ -24,13 +29,22 @@ export function Component(props: Props) {
 	const [addModalVisible, setAddModalVisibile] = useState(false);
 
 	const friends = props.friends ? Object.values(props.friends) : [];
+	const friendEmails = friends.map((f) => f.email);
+
 	const onHide = () => {
 		setAddModalVisibile(false);
 	};
 
 	const onSave = (email: string) => {
 		setAddModalVisibile(false);
-		console.log(email);
+		if (friendEmails.includes(email)) {
+			props.dispatch(toastAction("You've already added this friend"));
+			return;
+		}
+
+		Functions.addFriend({ email })
+			.then(() => props.dispatch(toastAction('Friend Added')))
+			.catch((err) => props.dispatch(toastAction(err.message)));
 	};
 
 	return (
@@ -74,7 +88,7 @@ const fsConnect = firestoreConnect((props: FriendsIndexProps) => [
 		where: ['uid', '==', props.route.params.uid],
 	},
 ]);
-const connector = connect((state: RootState, props) => ({
+const connector = connect((state: RootState) => ({
 	[FriendsCollection]: populate(
 		state.firestore,
 		FriendsCollection,
@@ -82,7 +96,9 @@ const connector = connect((state: RootState, props) => ({
 	) as { [id: string]: Friend },
 }));
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
+interface PropsFromRedux extends ConnectedProps<typeof connector> {
+	firebase: ExtendedFirebaseInstance;
+}
 
 export const FriendsIndex = compose<typeof Component>(
 	fsConnect,

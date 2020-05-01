@@ -12,9 +12,9 @@ import { SettingsContainer } from './src/settings/SettingsContainer';
 import { rrfProps, store, useTypedSelector } from './src/store';
 
 export type TabsScreenList = {
-	Me: { uid: string}
-	Friends: { uid: string }
-	Settings: {}
+	Me: { uid: string };
+	Friends: { uid: string };
+	Settings: {};
 };
 const Tab = createMaterialBottomTabNavigator<TabsScreenList>();
 function Tabs(props: { uid: string }) {

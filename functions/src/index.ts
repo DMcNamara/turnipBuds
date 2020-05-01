@@ -79,7 +79,6 @@ export const onUserAdded = functions.firestore
 			.get();
 
 		if (!friendSnap.empty) {
-			console.log('updating');
 			const batch = firestore.batch();
 			friendSnap.forEach((doc) => {
 				batch.update(doc.ref, { friend: uid });

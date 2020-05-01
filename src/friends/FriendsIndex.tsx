@@ -25,7 +25,7 @@ export type FriendsIndexProps = {
 };
 
 type Props = FriendsIndexProps & PropsFromRedux;
-export function Component(props: Props) {
+function Component(props: Props) {
 	const [addModalVisible, setAddModalVisibile] = useState(false);
 
 	const friends = props.friends ? Object.values(props.friends) : [];

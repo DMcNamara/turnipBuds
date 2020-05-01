@@ -12,8 +12,8 @@ type Props = {
 export type FriendsContainerScreenList = {
 	Friends: { uid: string };
 };
+const Stack = createStackNavigator<FriendsContainerScreenList>();
 export function FriendsContainer(props: Props) {
-	const Stack = createStackNavigator<FriendsContainerScreenList>();
 	const uid = props.route.params.uid;
 
 	if (!uid) {

@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/functions';
 import {
 	FB_API_KEY,
 	FB_APP_ID,
@@ -16,6 +17,7 @@ import { FirestoreReducer } from 'react-redux-firebase';
 import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 import { authReducer, AuthState } from './auth/auth.reducer';
+import { toastReducer, ToastState } from './toast/toast.reducer';
 
 firebase.initializeApp({
 	apiKey: FB_API_KEY,
@@ -29,14 +31,22 @@ firebase.initializeApp({
 });
 
 firebase.firestore();
+const functions = firebase.functions();
+
+// Cloud Functions
+export const Functions = {
+	addFriend: functions.httpsCallable('addFriend'),
+};
 
 export interface RootState {
 	firestore: FirestoreReducer.Reducer;
 	auth: AuthState;
+	toast: ToastState;
 }
 const rootReducer = combineReducers<RootState>({
 	firestore: firestoreReducer as any,
 	auth: authReducer,
+	toast: toastReducer,
 });
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

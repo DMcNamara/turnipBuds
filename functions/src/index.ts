@@ -78,7 +78,6 @@ export const onUserAdded = functions.firestore
 			.where('email', '==', email)
 			.get();
 
-		console.log(friendSnap.size);
 		if (!friendSnap.empty) {
 			console.log('updating');
 			const batch = firestore.batch();

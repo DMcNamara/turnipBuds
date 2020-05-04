@@ -28,7 +28,7 @@ type Props = FriendsIndexProps & PropsFromRedux;
 function Component(props: Props) {
 	const [addModalVisible, setAddModalVisibile] = useState(false);
 
-	const allFriends = Object.values(props.friends);
+	const allFriends = Object.values(props.friends || {});
 	const friends = props.friends
 		? allFriends.filter((f) => f.friend.id)
 		: [];

@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "stalkTracker",
+    "name": "Stalk Tracker",
     "slug": "stalk-tracker",
+    "description": "Watch your stalk stonks go up and down! Stalk your friend's prices for even more fun.",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +23,25 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.mcnamara.stalktracker",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.mcnamara.stalktracker",
+      "versionCode": 1
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "stalktracker",
+            "project": "stalk-tracker",
+            "authToken": "0b68fe7ab8ca4a579dea710432017c26a713a99807cf40d2a53ba9d24f851f1e"
+          }
+        }
+      ]
     }
   }
 }

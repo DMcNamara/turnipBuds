@@ -11,6 +11,7 @@ import { HomeContainer } from './src/home/HomeContainer';
 import { LoginScreen } from './src/login/LoginScreen';
 import { SettingsContainer } from './src/settings/SettingsContainer';
 import { persistor, rrfProps, store, useTypedSelector } from './src/store';
+import './src/common/sentry';
 
 export type TabsScreenList = {
 	Me: { uid: string };

@@ -29,12 +29,8 @@ function Component(props: Props) {
 	const [addModalVisible, setAddModalVisibile] = useState(false);
 
 	const allFriends = Object.values(props.friends || {});
-	const friends = props.friends
-		? allFriends.filter((f) => f.friend.id)
-		: [];
-	const futureFriends = props.friends
-		? allFriends.filter((f) => !f.friend.id)
-		: [];
+	const friends = allFriends.filter((f) => f.friend.id);
+	const futureFriends = allFriends.filter((f) => !f.friend.id);
 	const friendEmails = allFriends.map((f) => f.email);
 
 	const onHide = () => {
@@ -71,7 +67,7 @@ function Component(props: Props) {
 						haven't joined up yet
 					</Paragraph>
 					<FlatList
-						style={{marginTop: 15}}
+						style={{ marginTop: 15 }}
 						data={futureFriends}
 						renderItem={({ item }) => <Text>{item.email}</Text>}
 						keyExtractor={(item) => item.email}

@@ -8,6 +8,7 @@ import {
 } from 'react-native-dotenv';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
+import * as Sentry from 'sentry-expo';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
 
 const config: Google.GoogleLogInConfig = {
@@ -46,9 +47,15 @@ export function LoginScreen() {
 							return userData;
 						}
 					})
-					.then((userData) =>
-						dispatch(setCurrentUserAction(userData.user?.uid))
-					);
+					.then((userData) => {
+						dispatch(setCurrentUserAction(userData.user?.uid));
+						Sentry.configureScope((scope) => {
+							scope.setUser({
+								email: userData.user?.email,
+								id: userData.user?.uid,
+							});
+						});
+					});
 
 				await fb.reloadAuth(credential);
 			}

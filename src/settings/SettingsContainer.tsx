@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import { actionTypes as fat } from 'redux-firestore';
+import * as Sentry from 'sentry-expo';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
 
 export function SettingsContainer() {
@@ -11,11 +12,14 @@ export function SettingsContainer() {
 	const dispatch = useDispatch();
 
 	const onLogout = async () => {
-		dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
-		dispatch(setCurrentUserAction(null));
 		await firebase.logout().then(
 			() => {
 				console.log('logged out');
+				dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
+				dispatch(setCurrentUserAction(null));
+				Sentry.configureScope((scope) => {
+					scope.setUser(null);
+				});
 			},
 			(err) => console.log('error', err)
 		);

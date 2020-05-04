@@ -3,19 +3,20 @@ import { format } from 'date-fns';
 import React from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Title } from 'react-native-paper';
+import { Subheading, Text, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
 import { getSunday } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
+import { useTypedSelector } from '../store';
 import {
 	UsersCollection,
 	WeekPrice,
 	WeeksCollection,
 } from '../store/collections';
-import { HomeContainerScreenList } from './HomeContainer';
+import { HomeNavigatorScreenList } from './HomeContainer';
 
 type HomeProps = {
-	route: RouteProp<HomeContainerScreenList, 'Home'>;
+	route: RouteProp<HomeNavigatorScreenList, 'Home'>;
 };
 export function Home({ route }: HomeProps) {
 	if (!route.params.uid) {
@@ -24,6 +25,9 @@ export function Home({ route }: HomeProps) {
 	const uid = route.params.uid;
 	const sunday = getSunday();
 	const firestore = useFirestore();
+	const weekPrices = useTypedSelector<WeekPrice[]>(
+		({ firestore: { ordered } }) => ordered[WeeksCollection]
+	);
 
 	async function onChange(id: string, name: keyof WeekPrice, price: string) {
 		if (name !== 'start') {
@@ -46,8 +50,7 @@ export function Home({ route }: HomeProps) {
 				<Week
 					sunday={sunday}
 					uid={uid}
-					weekHash={route.params.weekHash}
-					weekPrices={route.params.weeks}
+					weekPrices={weekPrices}
 					onChange={onChange}
 				/>
 			</View>
@@ -58,21 +61,41 @@ export function Home({ route }: HomeProps) {
 type Props = {
 	sunday: Date;
 	uid: string;
-	weekHash: string;
 	weekPrices: WeekPrice[];
 	onChange: (id: string, name: keyof WeekPrice, price: string) => void;
 };
 function Week(props: Props) {
-	const weekPrice = props.weekPrices[0];
+	const weekPrice = { ...props.weekPrices[0] };
 	return (
 		<>
 			<Title>Week of {format(props.sunday, 'LLLL do yyyy')}</Title>
-			<WeekInput
-				weekPrices={weekPrice}
-				onChange={(name, price) =>
-					props.onChange(weekPrice.id, name, price)
-				}
-			/>
+			<View style={{ marginVertical: 15 }}>
+				<Text style={{ marginBottom: 5 }}>
+					What was the Purchase price of Turnips on your island this
+					week?
+				</Text>
+				<TextInput
+					label="Island Price"
+					mode="outlined"
+					value={
+						weekPrice.islandBuyPrice
+							? weekPrice.islandBuyPrice.toString()
+							: undefined
+					}
+					onChangeText={(text) =>
+						props.onChange(weekPrice.id, 'islandBuyPrice', text)
+					}
+				/>
+			</View>
+			<View>
+				<Subheading>Sell Prices this week:</Subheading>
+				<WeekInput
+					weekPrices={weekPrice}
+					onChange={(name, price) =>
+						props.onChange(weekPrice.id, name, price)
+					}
+				/>
+			</View>
 		</>
 	);
 }

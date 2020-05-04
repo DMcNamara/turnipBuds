@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/functions';
+import { AsyncStorage } from 'react-native';
 import {
 	FB_API_KEY,
 	FB_APP_ID,
@@ -16,6 +17,7 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { FirestoreReducer } from 'react-redux-firebase';
 import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
+import { persistReducer, persistStore } from 'redux-persist';
 import { authReducer, AuthState } from './auth/auth.reducer';
 import { toastReducer, ToastState } from './toast/toast.reducer';
 
@@ -38,6 +40,10 @@ export const Functions = {
 	addFriend: functions.httpsCallable('addFriend'),
 };
 
+const persistConfig = {
+	key: 'root',
+	storage: AsyncStorage,
+};
 export interface RootState {
 	firestore: FirestoreReducer.Reducer;
 	auth: AuthState;
@@ -48,6 +54,7 @@ const rootReducer = combineReducers<RootState>({
 	auth: authReducer,
 	toast: toastReducer,
 });
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -57,11 +64,10 @@ const rrfConfig = {
 	enableRedirectHandling: false,
 	enableLogging: true,
 	updateProfileOnLogin: true,
-	onAuthStateChanged: (args: any) => console.log(args),
 };
 
-export const store = createStore(rootReducer);
-
+export const store = createStore(persistedReducer);
+export const persistor = persistStore(store);
 export const rrfProps = {
 	firebase,
 	config: rrfConfig,

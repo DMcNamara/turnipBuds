@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { FAB, Paragraph, Text, Title } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import {
 	ExtendedFirebaseInstance,
@@ -28,8 +28,14 @@ type Props = FriendsIndexProps & PropsFromRedux;
 function Component(props: Props) {
 	const [addModalVisible, setAddModalVisibile] = useState(false);
 
-	const friends = props.friends ? Object.values(props.friends) : [];
-	const friendEmails = friends.map((f) => f.email);
+	const allFriends = Object.values(props.friends);
+	const friends = props.friends
+		? allFriends.filter((f) => f.friend.id)
+		: [];
+	const futureFriends = props.friends
+		? allFriends.filter((f) => !f.friend.id)
+		: [];
+	const friendEmails = allFriends.map((f) => f.email);
 
 	const onHide = () => {
 		setAddModalVisibile(false);
@@ -49,6 +55,7 @@ function Component(props: Props) {
 
 	return (
 		<View style={{ flex: 1, margin: 15 }}>
+			<Title>Friends</Title>
 			<FlatList
 				data={friends}
 				renderItem={({ item: { friend } }) => (
@@ -56,6 +63,21 @@ function Component(props: Props) {
 				)}
 				keyExtractor={(item) => item.friend.id}
 			/>
+			{!!futureFriends.length && (
+				<>
+					<Title>Future Friends</Title>
+					<Paragraph>
+						These friends either haven't accpted your request or
+						haven't joined up yet
+					</Paragraph>
+					<FlatList
+						style={{marginTop: 15}}
+						data={futureFriends}
+						renderItem={({ item }) => <Text>{item.email}</Text>}
+						keyExtractor={(item) => item.email}
+					/>
+				</>
+			)}
 			<FAB
 				style={styles.fab}
 				icon="plus"

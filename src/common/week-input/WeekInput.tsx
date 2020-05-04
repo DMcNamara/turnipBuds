@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Col, Grid, Row } from 'react-native-easy-grid';
+import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { WeekPrice } from '../../store/collections';
 
@@ -12,131 +11,131 @@ export function WeekInput(props: {
 		return <></>;
 	}
 	return (
-		<Grid>
-			<Row>
-				<Col></Col>
-				<Col>
+		<View style={{display: 'flex'}}>
+			<View style={styles.row}>
+				<View style={styles.col}></View>
+				<View style={styles.col}>
 					<Text>AM</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<Text>PM</Text>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Monday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='monAM'
+						name="monAM"
 						value={props.weekPrices.monAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='monPM'
+						name="monPM"
 						value={props.weekPrices.monPM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Tuesday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='tueAM'
+						name="tueAM"
 						value={props.weekPrices.tueAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='tuePM'
+						name="tuePM"
 						value={props.weekPrices.tuePM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Wednesday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='wedAM'
+						name="wedAM"
 						value={props.weekPrices.wedAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='wedPM'
+						name="wedPM"
 						value={props.weekPrices.wedPM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Thursday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='thuAM'
+						name="thuAM"
 						value={props.weekPrices.thuAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='thuPM'
+						name="thuPM"
 						value={props.weekPrices.thuPM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Friday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='friAM'
+						name="friAM"
 						value={props.weekPrices.friAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='friPM'
+						name="friPM"
 						value={props.weekPrices.friPM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-			<Row>
-				<Col>
+				</View>
+			</View>
+			<View style={styles.row}>
+				<View style={styles.col}>
 					<Text>Saturday</Text>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='satAM'
+						name="satAM"
 						value={props.weekPrices.satAM}
 						onChange={props.onChange}
 					/>
-				</Col>
-				<Col>
+				</View>
+				<View style={styles.col}>
 					<HalfDayInput
-						name='satPM'
+						name="satPM"
 						value={props.weekPrices.satPM}
 						onChange={props.onChange}
 					/>
-				</Col>
-			</Row>
-		</Grid>
+				</View>
+			</View>
+		</View>
 	);
 }
 
@@ -147,11 +146,23 @@ function HalfDayInput(props: {
 }) {
 	return (
 		<TextInput
-			label=''
+			label=""
 			value={props.value ? props.value.toString() : undefined}
-			mode='outlined'
+			mode="outlined"
 			dense
 			onChangeText={(text) => props.onChange(props.name, text)}
 		/>
 	);
 }
+
+const styles = StyleSheet.create({
+	row: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center'
+	},
+	col: {
+		width: '24%'
+	}
+});

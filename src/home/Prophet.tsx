@@ -1,13 +1,13 @@
 import React from 'react';
 import { WebView } from 'react-native-webview';
-import { HomeContainerScreenList } from './HomeContainer';
+import { HomeNavigatorScreenList } from './HomeContainer';
 import { RouteProp } from '@react-navigation/native';
 import { getProphetLink } from '../store/weeks/week-price.repository';
 import { useTypedSelector } from '../store';
 import { WeekPrice, WeeksCollection } from '../store/collections';
 
 type ProphetProps = {
-	route: RouteProp<HomeContainerScreenList, 'Prophet'>;
+	route: RouteProp<HomeNavigatorScreenList, 'Prophet'>;
 };
 export function Prophet({}: ProphetProps) {
 	const weekPrices = useTypedSelector<WeekPrice[]>(

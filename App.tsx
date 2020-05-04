@@ -5,11 +5,12 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { PersistGate } from 'redux-persist/integration/react';
 import { FriendsContainer } from './src/friends/FriendsContainer';
 import { HomeContainer } from './src/home/HomeContainer';
 import { LoginScreen } from './src/login/LoginScreen';
 import { SettingsContainer } from './src/settings/SettingsContainer';
-import { rrfProps, store, useTypedSelector } from './src/store';
+import { persistor, rrfProps, store, useTypedSelector } from './src/store';
 
 export type TabsScreenList = {
 	Me: { uid: string };
@@ -64,9 +65,11 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<ReactReduxFirebaseProvider {...rrfProps}>
-				<PaperProvider>
-					<Navigation />
-				</PaperProvider>
+				<PersistGate loading={null} persistor={persistor}>
+					<PaperProvider>
+						<Navigation />
+					</PaperProvider>
+				</PersistGate>
 			</ReactReduxFirebaseProvider>
 		</Provider>
 	);

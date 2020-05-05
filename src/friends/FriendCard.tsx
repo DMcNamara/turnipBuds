@@ -2,9 +2,12 @@ import React from 'react';
 import { Avatar, Card } from 'react-native-paper';
 import { User } from '../store/collections';
 
-export function FriendCard(props: { friend: User }) {
+export function FriendCard(props: {
+	friend: User;
+	onPress: (user: User) => void;
+}) {
 	return (
-		<Card >
+		<Card onPress={() => props.onPress(props.friend)}>
 			<Card.Title
 				title={props.friend.displayName}
 				left={() => (

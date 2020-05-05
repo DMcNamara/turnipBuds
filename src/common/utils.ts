@@ -1,4 +1,4 @@
-import { formatISO, startOfDay, startOfWeek } from 'date-fns';
+import { format, formatISO, startOfDay, startOfWeek } from 'date-fns';
 import * as Crypto from 'expo-crypto';
 
 /**
@@ -15,6 +15,10 @@ export async function calculateWeekHash(sunday: Date, uid: string) {
 		Crypto.CryptoDigestAlgorithm.SHA256,
 		`${uid}.${date}`
 	);
+}
+
+export function dateInWords(date: Date) {
+	return format(date, 'LLLL do yyyy');
 }
 
 export function getSunday() {

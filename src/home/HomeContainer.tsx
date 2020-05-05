@@ -109,7 +109,9 @@ function HomeNavigatorComponent(props: Props) {
 	);
 }
 
-// CONNECT
+/**
+ * CONNECT
+ */
 const fsConnect = firestoreConnect((props: HomeNavigatorProps) => {
 	const collection = `${UsersCollection}/${props.route.params.uid}/${WeeksCollection}`;
 	return [

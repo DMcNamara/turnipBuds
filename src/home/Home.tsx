@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Subheading, Text, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
-import { getSunday } from '../common/utils';
+import { getSunday, dateInWords } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
 import { useTypedSelector } from '../store';
 import {
@@ -68,7 +68,7 @@ function Week(props: Props) {
 	const weekPrice = { ...props.weekPrices[0] };
 	return (
 		<>
-			<Title>Week of {format(props.sunday, 'LLLL do yyyy')}</Title>
+			<Title>Week of {dateInWords(props.sunday)}</Title>
 			<View style={{ marginVertical: 15 }}>
 				<Text style={{ marginBottom: 5 }}>
 					What was the Purchase price of Turnips on your island this

@@ -1,4 +1,5 @@
 import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB, Paragraph, Text, Title } from 'react-native-paper';
@@ -14,6 +15,7 @@ import {
 	Friend,
 	FriendsCollection,
 	UsersCollection,
+	User,
 } from '../store/collections';
 import { toastAction } from '../store/toast/toast.actions';
 import { AddFriendModal } from './add-friends-modal/AddFriendModal';
@@ -22,6 +24,7 @@ import { FriendsContainerScreenList } from './FriendsContainer';
 
 export type FriendsIndexProps = {
 	route: RouteProp<FriendsContainerScreenList, 'Friends'>;
+	navigation: StackNavigationProp<FriendsContainerScreenList, 'Friends'>;
 };
 
 type Props = FriendsIndexProps & PropsFromRedux;
@@ -35,6 +38,12 @@ function Component(props: Props) {
 
 	const onHide = () => {
 		setAddModalVisibile(false);
+	};
+
+	const onPress = (friend: User) => {
+		props.navigation.navigate('FriendView', {
+			user: friend
+		});
 	};
 
 	const onSave = (email: string) => {
@@ -55,7 +64,7 @@ function Component(props: Props) {
 			<FlatList
 				data={friends}
 				renderItem={({ item: { friend } }) => (
-					<FriendCard friend={friend} />
+					<FriendCard friend={friend} onPress={onPress} />
 				)}
 				keyExtractor={(item) => item.friend.id}
 			/>
@@ -97,7 +106,9 @@ const styles = StyleSheet.create({
 	},
 });
 
-// CONNECT
+/**
+ * CONNECT
+ */
 const populates = [{ child: 'friend', root: UsersCollection }];
 const fsConnect = firestoreConnect((props: FriendsIndexProps) => [
 	{

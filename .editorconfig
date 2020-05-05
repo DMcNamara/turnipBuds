@@ -21,3 +21,7 @@ trim_trailing_whitespace = false
 [{package.json}]
 indent_style = space
 indent_size = 2
+
+[{firestore.rules}]
+indent_style = space
+indent_size = 2

@@ -5,13 +5,13 @@ import { WeekPrice } from '../../store/collections';
 
 export function WeekInput(props: {
 	weekPrices: WeekPrice;
-	onChange: (name: keyof WeekPrice, price: string) => void;
+	onChange?: (name: keyof WeekPrice, price: string) => void;
 }) {
 	if (!props.weekPrices) {
 		return <></>;
 	}
 	return (
-		<View style={{display: 'flex'}}>
+		<View style={{ display: 'flex' }}>
 			<View style={styles.row}>
 				<View style={styles.col}></View>
 				<View style={styles.col}>
@@ -142,7 +142,7 @@ export function WeekInput(props: {
 function HalfDayInput(props: {
 	name: keyof WeekPrice;
 	value: number | null;
-	onChange: (name: keyof WeekPrice, text: string) => void;
+	onChange?: (name: keyof WeekPrice, text: string) => void;
 }) {
 	return (
 		<TextInput
@@ -150,7 +150,14 @@ function HalfDayInput(props: {
 			value={props.value ? props.value.toString() : undefined}
 			mode="outlined"
 			dense
-			onChangeText={(text) => props.onChange(props.name, text)}
+			disabled={typeof props.onChange === 'undefined'}
+			onChangeText={(text) =>
+				props.onChange ? props.onChange(props.name, text) : undefined
+			}
+			keyboardType="number-pad"
+			maxLength={3}
+			autoCompleteType="off"
+			autoCorrect={false}
 		/>
 	);
 }
@@ -160,9 +167,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	col: {
-		width: '24%'
-	}
+		width: '24%',
+	},
 });

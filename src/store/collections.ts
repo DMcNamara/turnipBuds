@@ -1,6 +1,7 @@
 export const FriendsCollection = 'friends';
 export interface Friend {
 	accepted: boolean;
+	email: string;
 	friend: User;
 	uid: string;
 }

@@ -26,7 +26,9 @@ class Component extends React.PureComponent<PropsFromRedux> {
 	}
 }
 
-// CONNECT
+/**
+ * CONNECT
+ */
 const connector = connect((state: RootState) => ({
 	message: state.toast.message,
 	duration: state.toast.duration,

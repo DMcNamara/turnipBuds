@@ -73,7 +73,9 @@ function Component(props: ComponentProps) {
 		</ScrollView>
 	);
 }
-// CONNECT
+/**
+ * CONNECT
+ */
 const storeAs = `Friend${WeeksCollection}`;
 const fsConnect = firestoreConnect((props: FriendViewProps) => {
 	const collection = `${UsersCollection}/${props.user.id}/${WeeksCollection}`;

@@ -106,7 +106,9 @@ const styles = StyleSheet.create({
 	},
 });
 
-// CONNECT
+/**
+ * CONNECT
+ */
 const populates = [{ child: 'friend', root: UsersCollection }];
 const fsConnect = firestoreConnect((props: FriendsIndexProps) => [
 	{

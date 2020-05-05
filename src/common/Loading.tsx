@@ -19,7 +19,6 @@ export function CenteredActivityIndicator() {
 }
 
 function EmptyMessage({ message }: { message: string }) {
-	console.log('message: ', message);
 	return (
 		<View
 			style={{

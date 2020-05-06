@@ -1,9 +1,9 @@
 import { RouteProp } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-material-dropdown';
-import { Subheading, Text, TextInput, Title } from 'react-native-paper';
+import { Card, Subheading, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
 import { dateInWords, getSunday } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
@@ -78,44 +78,60 @@ function Week(props: Props) {
 	return (
 		<>
 			<Title>Week of {dateInWords(props.sunday)}</Title>
-			<View style={{ marginVertical: 15 }}>
-				<Subheading style={{ marginBottom: 5 }}>
-					What was the Purchase Price of Turnips on your Island this
-					Week?
-				</Subheading>
-				<TextInput
-					label="Island Price"
-					mode="outlined"
-					value={
-						weekPrice.islandBuyPrice
-							? weekPrice.islandBuyPrice.toString()
-							: undefined
-					}
-					onChangeText={(text) =>
-						props.onChange(weekPrice.id, 'islandBuyPrice', text)
-					}
-				/>
-				<Subheading style={{ marginTop: 15 }}>
-					What was the Price Pattern for Last Week?
-				</Subheading>
-				<Dropdown
-					label="Previous Week's Pattern"
-					data={patternOptions}
-					value={weekPrice.previousPattern?.toString()}
-					onChangeText={(value) =>
-						props.onChange(weekPrice.id, 'previousPattern', value)
-					}
-				/>
-			</View>
-			<View>
-				<Subheading>Sell Prices this Week:</Subheading>
-				<WeekInput
-					weekPrices={weekPrice}
-					onChange={(name, price) =>
-						props.onChange(weekPrice.id, name, price)
-					}
-				/>
-			</View>
+			<Card style={styles.cardSpacing}>
+				<Card.Content>
+					<Subheading style={{ marginBottom: 5 }}>
+						What was the Purchase Price of Turnips on your Island
+						this Week?
+					</Subheading>
+					<TextInput
+						label="Island Price"
+						mode="outlined"
+						value={
+							weekPrice.islandBuyPrice
+								? weekPrice.islandBuyPrice.toString()
+								: undefined
+						}
+						onChangeText={(text) =>
+							props.onChange(weekPrice.id, 'islandBuyPrice', text)
+						}
+					/>
+				</Card.Content>
+			</Card>
+			<Card style={styles.cardSpacing}>
+				<Card.Title title="What was the Pattern Last Week?" />
+				<Card.Content>
+					<Dropdown
+						label="Previous Week's Pattern"
+						data={patternOptions}
+						value={weekPrice.previousPattern?.toString()}
+						onChangeText={(value) =>
+							props.onChange(
+								weekPrice.id,
+								'previousPattern',
+								value
+							)
+						}
+					/>
+				</Card.Content>
+			</Card>
+			<Card style={styles.cardSpacing}>
+				<Card.Title title="Sell Prices this Week" />
+				<Card.Content>
+					<WeekInput
+						weekPrices={weekPrice}
+						onChange={(name, price) =>
+							props.onChange(weekPrice.id, name, price)
+						}
+					/>
+				</Card.Content>
+			</Card>
 		</>
 	);
 }
+
+const styles = StyleSheet.create({
+	cardSpacing: {
+		marginTop: 15,
+	},
+});

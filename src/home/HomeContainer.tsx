@@ -22,6 +22,7 @@ import {
 } from '../store/collections';
 import { Home } from './Home';
 import { Prophet } from './Prophet';
+import { Theme, HeaderTheme } from '../theme';
 
 type HomeContainerProps = {
 	route: RouteProp<TabsScreenList, 'Me'>;
@@ -49,7 +50,9 @@ export function HomeContainer({ route }: HomeContainerProps) {
 
 	return (
 		<>
-			<Stack.Navigator>
+			<Stack.Navigator screenOptions={{
+				...HeaderTheme
+			}}>
 				<Stack.Screen
 					name="Home"
 					component={HomeNavigator}

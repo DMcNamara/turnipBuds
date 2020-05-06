@@ -15,5 +15,8 @@ export function getProphetLink(week: WeekPrice) {
 		week.satAM,
 		week.satPM,
 	].join('.');
-	return `https://turnipprophet.io/?prices=${week.islandBuyPrice}.${priceString}`;
+	const previousPattern = week.previousPattern
+		? `&pattern=${week.previousPattern}`
+		: '';
+	return `https://turnipprophet.io/?prices=${week.islandBuyPrice}.${priceString}${previousPattern}`;
 }

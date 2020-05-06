@@ -1,3 +1,5 @@
+import { Pattern } from '../constants';
+
 export const FriendsCollection = 'friends';
 export interface Friend {
 	accepted: boolean;
@@ -24,6 +26,7 @@ export class WeekPrice {
 	start: Date | null = null;
 	id: string = '';
 	islandBuyPrice: number | null = null;
+	previousPattern: Pattern | null = null;
 	monAM: number | null = null;
 	monPM: number | null = null;
 	tueAM: number | null = null;

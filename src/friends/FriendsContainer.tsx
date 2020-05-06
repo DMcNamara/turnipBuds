@@ -3,9 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { TabsScreenList } from '../../App';
 import { Toast } from '../common/Toast';
+import { User } from '../store/collections';
 import { FriendsIndex } from './FriendsIndex';
 import { FriendViewScreen } from './FriendView';
-import { User } from '../store/collections';
+import { HeaderTheme } from '../theme';
 
 type Props = {
 	route: RouteProp<TabsScreenList, 'Friends'>;
@@ -13,7 +14,7 @@ type Props = {
 
 export type FriendsContainerScreenList = {
 	Friends: { uid: string };
-	FriendView: { user: User }
+	FriendView: { user: User };
 };
 const Stack = createStackNavigator<FriendsContainerScreenList>();
 export function FriendsContainer(props: Props) {
@@ -25,7 +26,11 @@ export function FriendsContainer(props: Props) {
 
 	return (
 		<>
-			<Stack.Navigator>
+			<Stack.Navigator
+				screenOptions={{
+					...HeaderTheme,
+				}}
+			>
 				<Stack.Screen
 					name="Friends"
 					component={FriendsIndex}
@@ -34,7 +39,9 @@ export function FriendsContainer(props: Props) {
 				<Stack.Screen
 					name="FriendView"
 					component={FriendViewScreen}
-					options={({ route }) => ({ title: route.params.user.displayName })}
+					options={({ route }) => ({
+						title: route.params.user.displayName,
+					})}
 				/>
 			</Stack.Navigator>
 			<Toast />

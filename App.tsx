@@ -12,6 +12,7 @@ import { LoginScreen } from './src/login/LoginScreen';
 import { SettingsContainer } from './src/settings/SettingsContainer';
 import { persistor, rrfProps, store, useTypedSelector } from './src/store';
 import './src/common/sentry';
+import { Theme } from './src/theme';
 
 export type TabsScreenList = {
 	Me: { uid: string };
@@ -21,7 +22,7 @@ export type TabsScreenList = {
 const Tab = createMaterialBottomTabNavigator<TabsScreenList>();
 function Tabs(props: { uid: string }) {
 	return (
-		<NavigationContainer>
+		<NavigationContainer theme={Theme}>
 			<Tab.Navigator shifting={true}>
 				<Tab.Screen
 					name="Me"
@@ -67,7 +68,7 @@ export default function App() {
 		<Provider store={store}>
 			<ReactReduxFirebaseProvider {...rrfProps}>
 				<PersistGate loading={null} persistor={persistor}>
-					<PaperProvider>
+					<PaperProvider theme={Theme}>
 						<Navigation />
 					</PaperProvider>
 				</PersistGate>

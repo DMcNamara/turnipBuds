@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "Stalk Tracker",
+    "name": "Turnip Buds",
     "slug": "stalk-tracker",
     "description": "Watch your stalk stonks go up and down! Stalk your friend's prices for even more fun.",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,12 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.mcnamara.stalktracker",
+      "bundleIdentifier": "com.mcnamara.turnipbuds",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.mcnamara.stalktracker",
+      "package": "com.mcnamara.turnipbuds",
       "versionCode": 1
     },
     "hooks": {

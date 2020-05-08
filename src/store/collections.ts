@@ -1,4 +1,5 @@
 import { Pattern } from '../constants';
+import { getMinMax } from './weeks/week-price.repository';
 
 export const FriendsCollection = 'friends';
 export interface Friend {
@@ -7,6 +8,16 @@ export interface Friend {
 	friend: User;
 	uid: string;
 }
+
+/** Copied from StalkMarket package */
+export type PriceAnalysis = {
+	patternIdx: number;
+	patternName: string;
+	matches: number[][][];
+	probability: number;
+	probabilityPerMatch: number;
+}[];
+
 export const UsersCollection = 'users';
 export interface User {
 	avatarUrl: string;
@@ -20,11 +31,22 @@ export class WeekPrice {
 	constructor(props?: Partial<WeekPrice>) {
 		if (props) {
 			Object.assign(this, props);
+
+			// firestore doesn't save nested arrays, so the matches are stored as a string
+			if (props.predictions) {
+				this.predictions = props.predictions.map((p) => ({
+					...p,
+					matches:
+						typeof p.matches === 'string'
+							? JSON.parse(p.matches)
+							: p.matches,
+				}));
+			}
 		}
 	}
 
-	start: Date | null = null;
 	id: string = '';
+	start: Date | null = null;
 	islandBuyPrice: number | null = null;
 	previousPattern: Pattern | null = null;
 	monAM: number | null = null;
@@ -39,4 +61,14 @@ export class WeekPrice {
 	friPM: number | null = null;
 	satAM: number | null = null;
 	satPM: number | null = null;
+
+	predictions: PriceAnalysis = [];
+	/** This week's 100% likely pattern */
+	pattern: Pattern | null = null;
+
+	getMinMax() {
+		return this.predictions
+			.filter((p) => p.patternIdx >= 0)
+			.map((p) => getMinMax(p));
+	}
 }

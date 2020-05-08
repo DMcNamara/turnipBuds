@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { WeekPrice } from '../../store/collections';
+import { debounce } from 'lodash';
 
 export function WeekInput(props: {
 	weekPrices: WeekPrice;
@@ -144,16 +145,25 @@ function HalfDayInput(props: {
 	value: number | null;
 	onChange?: (name: keyof WeekPrice, text: string) => void;
 }) {
+	if (!props.onChange) {
+		props.onChange = () => null;
+	}
+	const [ value, setValue ] = useState(props.value?.toString() || undefined);
+	const debouncedOnChange = debounce(props.onChange, 500);
+
+	const onChange = (text: string) => {
+		setValue(text);
+		debouncedOnChange(props.name, text);
+	}
+
 	return (
 		<TextInput
 			label=""
-			value={props.value ? props.value.toString() : undefined}
+			value={value}
 			mode="outlined"
 			dense
 			disabled={typeof props.onChange === 'undefined'}
-			onChangeText={(text) =>
-				props.onChange ? props.onChange(props.name, text) : undefined
-			}
+			onChangeText={onChange}
 			keyboardType="number-pad"
 			maxLength={3}
 			autoCompleteType="off"

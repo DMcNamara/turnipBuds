@@ -14,6 +14,7 @@ import { useTypedSelector } from '../store';
 import { WeekPrice, WeeksCollection } from '../store/collections';
 import { getProphetLink } from '../store/weeks/week-price.repository';
 import { HomeNavigatorScreenList } from './HomeContainer';
+import { CenteredActivityIndicator } from '../common/Loading';
 
 type PredictionsProps = {
 	route: RouteProp<HomeNavigatorScreenList, 'Predictions'>;
@@ -23,7 +24,7 @@ export function Predictions({}: PredictionsProps) {
 		({ firestore: { ordered } }) => ordered[WeeksCollection]
 	);
 	if (!weekPrices || !weekPrices[0]) {
-		return <></>;
+		return <CenteredActivityIndicator/>;
 	}
 	const weekPrice = new WeekPrice(weekPrices[0]);
 
@@ -120,8 +121,8 @@ function MinMaxChart(props: { weekPrice: WeekPrice }) {
 		(p) => p.patternIdx === Pattern.Unknown
 	);
 
-	if (!all || !all.matches) {
-		return <></>;
+	if (!all || !all.matches || !all.matches[0]) {
+		return <CenteredActivityIndicator/>;
 	}
 
 	const matches = all.matches;

@@ -47,7 +47,7 @@ export function Home({ route }: HomeProps) {
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
-			<View style={{ margin: 15 }}>
+			<View style={{ margin: 12 }}>
 				<Week
 					sunday={sunday}
 					uid={uid}
@@ -132,6 +132,6 @@ function Week(props: Props) {
 
 const styles = StyleSheet.create({
 	cardSpacing: {
-		marginTop: 15,
+		marginTop: 12,
 	},
 });

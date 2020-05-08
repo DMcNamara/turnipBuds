@@ -20,9 +20,9 @@ import {
 	WeekPrice,
 	WeeksCollection,
 } from '../store/collections';
+import { HeaderTheme } from '../theme';
 import { Home } from './Home';
-import { Prophet } from './Prophet';
-import { Theme, HeaderTheme } from '../theme';
+import { Predictions } from './Predictions';
 
 type HomeContainerProps = {
 	route: RouteProp<TabsScreenList, 'Me'>;
@@ -50,9 +50,11 @@ export function HomeContainer({ route }: HomeContainerProps) {
 
 	return (
 		<>
-			<Stack.Navigator screenOptions={{
-				...HeaderTheme
-			}}>
+			<Stack.Navigator
+				screenOptions={{
+					...HeaderTheme,
+				}}
+			>
 				<Stack.Screen
 					name="Home"
 					component={HomeNavigator}
@@ -66,7 +68,7 @@ export function HomeContainer({ route }: HomeContainerProps) {
 
 export type HomeNavigatorScreenList = {
 	Home: { uid: string; weekHash: string; weeks: WeekPrice[] };
-	Prophet: { uid: string; weekHash: string; weeks: WeekPrice[] };
+	Predictions: { uid: string; weekHash: string; weeks: WeekPrice[] };
 };
 const Tab = createMaterialTopTabNavigator<HomeNavigatorScreenList>();
 type HomeNavigatorProps = {
@@ -99,9 +101,9 @@ function HomeNavigatorComponent(props: Props) {
 				}}
 			/>
 			<Tab.Screen
-				name="Prophet"
-				component={Prophet}
-				options={{ tabBarLabel: 'Turnip Prophet' }}
+				name="Predictions"
+				component={Predictions}
+				options={{ tabBarLabel: 'Predictions' }}
 				initialParams={{
 					uid,
 					weekHash,

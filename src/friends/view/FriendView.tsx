@@ -15,11 +15,12 @@ type Props = {
 };
 export function FriendView({ route }: Props) {
 	const weekPrice = useTypedSelector<WeekPrice>(
-		({ firestore: { data } }) => data[FriendsWeekCollection]
+		({ firestore: { data } }) =>
+			data[FriendsWeekCollection][route.params.weekHash]
 	);
 
 	if (!weekPrice) {
-		<CenteredActivityIndicator />;
+		return <CenteredActivityIndicator />;
 	}
 	const week = weekPrice;
 	return (

@@ -19,9 +19,9 @@ import {
 	FriendsWeekCollection,
 	User,
 	UsersCollection,
-	WeekPrice,
 	WeeksCollection,
 } from '../../store/collections';
+import { getFriendsWeekPrice } from '../../store/selectors';
 import { FriendsContainerScreenList } from '../FriendsContainer';
 import { FriendView } from './FriendView';
 
@@ -75,9 +75,16 @@ function Component(props: ComponentProps) {
 				options={{ tabBarLabel: 'Prices' }}
 				initialParams={{
 					sunday: props.sunday,
+					weekHash: props.weekHash,
 				}}
 			/>
-			<Tab.Screen name="Predictions" component={FriendPredictions} />
+			<Tab.Screen
+				name="Predictions"
+				component={FriendPredictions}
+				initialParams={{
+					weekHash: props.weekHash,
+				}}
+			/>
 		</Tab.Navigator>
 	);
 }
@@ -89,13 +96,14 @@ const fsConnect = firestoreConnect((props: FriendViewProps) => {
 	return [
 		{
 			collection,
-			doc: props.weekHash,
+			where: ['id', '==', props.weekHash],
 			storeAs: FriendsWeekCollection,
 		},
 	];
 });
-const connector = connect((state: RootState) => ({
-	week: state.firestore.data[FriendsWeekCollection] as WeekPrice,
+const connector = connect((state: RootState, props: FriendViewProps) => ({
+	week: getFriendsWeekPrice(state, props.weekHash),
+	[FriendsWeekCollection]: state.firestore.data[FriendsWeekCollection],
 }));
 interface PropsFromRedux extends ConnectedProps<typeof connector> {
 	firebase: ExtendedFirebaseInstance;
@@ -105,6 +113,9 @@ export const FriendViewNavigator = compose<
 >(
 	fsConnect,
 	connector,
-	spinnerWhileLoading(['week']),
-	renderIfEmpty(['week'], 'Your friend has no data for this week!')
+	spinnerWhileLoading([FriendsWeekCollection]),
+	renderIfEmpty(
+		[FriendsWeekCollection],
+		'Your friend has no data for this week!'
+	)
 )(Component);

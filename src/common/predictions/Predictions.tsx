@@ -6,18 +6,18 @@ import { Button, Card } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { RootState } from '../../store';
-import {
-	FriendsWeekCollection,
-	WeekPrice,
-	WeeksCollection,
-} from '../../store/collections';
+import { WeekPrice, WeeksCollection } from '../../store/collections';
+import { getFriendsWeekPrice } from '../../store/selectors';
 import { getProphetLink } from '../../store/weeks/week-price.repository';
 import { CenteredActivityIndicator } from '../Loading';
 import { MinMaxChart } from './MinMaxChart';
 import { SummaryTable } from './SummaryTable';
 
+type PredictionScreen = {
+	Predictions: { weekHash: string };
+};
 type PredictionsProps = {
-	route: RouteProp<any, ''>;
+	route: RouteProp<PredictionScreen, 'Predictions'>;
 };
 interface PropsFromRedux {
 	weekPrice: WeekPrice;
@@ -82,12 +82,11 @@ export const HomePredictions = compose<
 /**
  * FRIEND CONNECT
  */
-const friendConnector = connect((state: RootState) => ({
-	weekPrice: state.firestore.data[FriendsWeekCollection]
-		? new WeekPrice(state.firestore.data[FriendsWeekCollection])
-		: undefined,
-	state: state,
-}));
+const friendConnector = connect(
+	(state: RootState, { route }: PredictionsProps) => ({
+		weekPrice: getFriendsWeekPrice(state, route.params.weekHash),
+	})
+);
 export const FriendPredictions = compose<
 	(props: PredictionsProps) => JSX.Element
 >(friendConnector)(Predictions);

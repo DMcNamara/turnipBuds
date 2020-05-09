@@ -12,6 +12,8 @@ import {
 } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { TabsScreenList } from '../../App';
+import { CenteredActivityIndicator } from '../common/Loading';
+import { HomePredictions } from '../common/predictions/Predictions';
 import { Toast } from '../common/Toast';
 import { calculateWeekHash, getSunday } from '../common/utils';
 import { RootState } from '../store';
@@ -22,7 +24,6 @@ import {
 } from '../store/collections';
 import { HeaderTheme } from '../theme';
 import { Home } from './Home';
-import { Predictions } from './Predictions';
 
 type HomeContainerProps = {
 	route: RouteProp<TabsScreenList, 'Me'>;
@@ -42,10 +43,10 @@ export function HomeContainer({ route }: HomeContainerProps) {
 			const digest = await calculateWeekHash(sunday, uid);
 			setWeekHash(digest);
 		})();
-	}, [uid]);
+	}, [uid, sunday]);
 
 	if (!route.params.uid || !weekHash) {
-		return <></>;
+		return <CenteredActivityIndicator />;
 	}
 
 	return (
@@ -68,7 +69,7 @@ export function HomeContainer({ route }: HomeContainerProps) {
 
 export type HomeNavigatorScreenList = {
 	Home: { uid: string; weekHash: string; weeks: WeekPrice[] };
-	Predictions: { uid: string; weekHash: string; weeks: WeekPrice[] };
+	Predictions: {};
 };
 const Tab = createMaterialTopTabNavigator<HomeNavigatorScreenList>();
 type HomeNavigatorProps = {
@@ -102,13 +103,8 @@ function HomeNavigatorComponent(props: Props) {
 			/>
 			<Tab.Screen
 				name="Predictions"
-				component={Predictions}
+				component={HomePredictions}
 				options={{ tabBarLabel: 'Predictions' }}
-				initialParams={{
-					uid,
-					weekHash,
-					weeks: props[WeeksCollection],
-				}}
 			/>
 		</Tab.Navigator>
 	);

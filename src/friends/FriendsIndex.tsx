@@ -14,8 +14,8 @@ import { Functions, RootState } from '../store';
 import {
 	Friend,
 	FriendsCollection,
-	UsersCollection,
 	User,
+	UsersCollection,
 } from '../store/collections';
 import { toastAction } from '../store/toast/toast.actions';
 import { AddFriendModal } from './add-friends-modal/AddFriendModal';
@@ -42,7 +42,7 @@ function Component(props: Props) {
 
 	const onPress = (friend: User) => {
 		props.navigation.navigate('FriendView', {
-			user: friend
+			user: friend,
 		});
 	};
 
@@ -72,7 +72,7 @@ function Component(props: Props) {
 				<>
 					<Title>Future Friends</Title>
 					<Paragraph>
-						These friends either haven't accpted your request or
+						These friends either haven't accepted your request or
 						haven't joined up yet
 					</Paragraph>
 					<FlatList
@@ -99,10 +99,10 @@ function Component(props: Props) {
 
 const styles = StyleSheet.create({
 	fab: {
-		position: 'absolute',
-		margin: 16,
-		right: 0,
 		bottom: 0,
+		margin: 16,
+		position: 'absolute',
+		right: 0,
 	},
 });
 

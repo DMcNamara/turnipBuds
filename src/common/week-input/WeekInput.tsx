@@ -1,8 +1,8 @@
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { WeekPrice } from '../../store/collections';
-import { debounce } from 'lodash';
 
 export function WeekInput(props: {
 	weekPrices: WeekPrice;
@@ -12,7 +12,7 @@ export function WeekInput(props: {
 		return <></>;
 	}
 	return (
-		<View style={{ display: 'flex' }}>
+		<View style={styles.container}>
 			<View style={styles.row}>
 				<View style={styles.col}></View>
 				<View style={styles.col}>
@@ -145,16 +145,18 @@ function HalfDayInput(props: {
 	value: number | null;
 	onChange?: (name: keyof WeekPrice, text: string) => void;
 }) {
-	if (!props.onChange) {
-		props.onChange = () => null;
-	}
-	const [ value, setValue ] = useState(props.value?.toString() || undefined);
-	const debouncedOnChange = debounce(props.onChange, 500);
+	const tempOnChange =
+		typeof props.onChange === 'function' ? props.onChange : () => null;
+
+	const [value, setValue] = useState(props.value?.toString() || undefined);
+	const debouncedOnChange = debounce(tempOnChange, 500);
 
 	const onChange = (text: string) => {
 		setValue(text);
-		debouncedOnChange(props.name, text);
-	}
+		if (props.onChange) {
+			debouncedOnChange(props.name, text);
+		}
+	};
 
 	return (
 		<TextInput
@@ -173,13 +175,16 @@ function HalfDayInput(props: {
 }
 
 const styles = StyleSheet.create({
+	col: {
+		width: '24%',
+	},
+	container: {
+		flex: 1,
+	},
 	row: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-	},
-	col: {
-		width: '24%',
 	},
 });

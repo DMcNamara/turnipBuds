@@ -4,9 +4,9 @@ import React from 'react';
 import { TabsScreenList } from '../../App';
 import { Toast } from '../common/Toast';
 import { User } from '../store/collections';
-import { FriendsIndex } from './FriendsIndex';
-import { FriendViewScreen } from './FriendView';
 import { HeaderTheme } from '../theme';
+import { FriendsIndex } from './FriendsIndex';
+import { FriendViewContainer } from './view/FriendViewContainer';
 
 type Props = {
 	route: RouteProp<TabsScreenList, 'Friends'>;
@@ -38,7 +38,7 @@ export function FriendsContainer(props: Props) {
 				/>
 				<Stack.Screen
 					name="FriendView"
-					component={FriendViewScreen}
+					component={FriendViewContainer}
 					options={({ route }) => ({
 						title: route.params.user.displayName,
 					})}

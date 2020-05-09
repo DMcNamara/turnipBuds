@@ -1,7 +1,6 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { Paragraph, Title } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import {
 	ExtendedFirebaseInstance,
@@ -12,22 +11,24 @@ import {
 	CenteredActivityIndicator,
 	renderIfEmpty,
 	spinnerWhileLoading,
-} from '../common/Loading';
-import { calculateWeekHash, dateInWords, getSunday } from '../common/utils';
-import { WeekInput } from '../common/week-input/WeekInput';
-import { RootState } from '../store';
+} from '../../common/Loading';
+import { FriendPredictions } from '../../common/predictions/Predictions';
+import { calculateWeekHash, getSunday } from '../../common/utils';
+import { RootState } from '../../store';
 import {
+	FriendsWeekCollection,
 	User,
 	UsersCollection,
 	WeekPrice,
 	WeeksCollection,
-} from '../store/collections';
-import { FriendsContainerScreenList } from './FriendsContainer';
+} from '../../store/collections';
+import { FriendsContainerScreenList } from '../FriendsContainer';
+import { FriendView } from './FriendView';
 
 type Props = {
 	route: RouteProp<FriendsContainerScreenList, 'FriendView'>;
 };
-export function FriendViewScreen({ route }: Props) {
+export function FriendViewContainer({ route }: Props) {
 	const [weekHash, setWeekHash] = useState('');
 	const uid = route.params.user.id;
 	const sunday = getSunday();
@@ -37,13 +38,13 @@ export function FriendViewScreen({ route }: Props) {
 			const digest = await calculateWeekHash(sunday, uid);
 			setWeekHash(digest);
 		})();
-	}, [uid]);
+	}, [uid, sunday]);
 
 	if (!uid || !weekHash) {
 		return <CenteredActivityIndicator />;
 	}
 	return (
-		<FriendView
+		<FriendViewNavigator
 			sunday={sunday}
 			user={route.params.user}
 			weekHash={weekHash}
@@ -52,8 +53,13 @@ export function FriendViewScreen({ route }: Props) {
 }
 
 /**
- * FriendView Component
+ * FriendViewNavigator Component
  */
+export type FriendViewNavigatorScreenList = {
+	View: FriendViewProps;
+	Predictions: {};
+};
+const Tab = createMaterialTopTabNavigator<FriendViewNavigatorScreenList>();
 interface FriendViewProps {
 	sunday: Date;
 	user: User;
@@ -62,38 +68,41 @@ interface FriendViewProps {
 type ComponentProps = PropsFromRedux & FriendViewProps;
 function Component(props: ComponentProps) {
 	return (
-		<ScrollView showsVerticalScrollIndicator={false}>
-			<View style={{ margin: 15 }}>
-				<Title>Week of {dateInWords(props.sunday)}</Title>
-				<Paragraph>
-					Island Purchase Price: {props.week.islandBuyPrice}
-				</Paragraph>
-				<WeekInput weekPrices={props.week} />
-			</View>
-		</ScrollView>
+		<Tab.Navigator>
+			<Tab.Screen
+				name="View"
+				component={FriendView}
+				options={{ tabBarLabel: 'Prices' }}
+				initialParams={{
+					sunday: props.sunday,
+				}}
+			/>
+			<Tab.Screen name="Predictions" component={FriendPredictions} />
+		</Tab.Navigator>
 	);
 }
 /**
  * CONNECT
  */
-const storeAs = `Friend${WeeksCollection}`;
 const fsConnect = firestoreConnect((props: FriendViewProps) => {
 	const collection = `${UsersCollection}/${props.user.id}/${WeeksCollection}`;
 	return [
 		{
 			collection,
 			doc: props.weekHash,
-			storeAs,
+			storeAs: FriendsWeekCollection,
 		},
 	];
 });
 const connector = connect((state: RootState) => ({
-	week: state.firestore.data[storeAs] as WeekPrice,
+	week: state.firestore.data[FriendsWeekCollection] as WeekPrice,
 }));
 interface PropsFromRedux extends ConnectedProps<typeof connector> {
 	firebase: ExtendedFirebaseInstance;
 }
-export const FriendView = compose<(props: FriendViewProps) => JSX.Element>(
+export const FriendViewNavigator = compose<
+	(props: FriendViewProps) => JSX.Element
+>(
 	fsConnect,
 	connector,
 	spinnerWhileLoading(['week']),

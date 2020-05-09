@@ -27,6 +27,7 @@ export interface User {
 }
 
 export const WeeksCollection = 'weeks';
+export const FriendsWeekCollection = `Friend${WeeksCollection}`;
 export class WeekPrice {
 	constructor(props?: Partial<WeekPrice>) {
 		if (props) {

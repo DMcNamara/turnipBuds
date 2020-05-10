@@ -15,7 +15,7 @@ import { TabsScreenList } from '../../App';
 import { CenteredActivityIndicator } from '../common/Loading';
 import { HomePredictions } from '../common/predictions/Predictions';
 import { Toast } from '../common/Toast';
-import { calculateWeekHash, getSunday } from '../common/utils';
+import { calculateWeekHash, dateInISO, getSunday } from '../common/utils';
 import { RootState } from '../store';
 import {
 	UsersCollection,
@@ -84,7 +84,12 @@ function HomeNavigatorComponent(props: Props) {
 			const collection = `${UsersCollection}/${uid}/${WeeksCollection}`;
 			firestore.set(
 				{ collection, doc: weekHash },
-				{ ...new WeekPrice({ id: weekHash }) }
+				{
+					...new WeekPrice({
+						id: weekHash,
+						start: dateInISO(getSunday()),
+					}),
+				}
 			);
 		}
 		return <></>;

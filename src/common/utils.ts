@@ -7,14 +7,18 @@ import * as Crypto from 'expo-crypto';
  * @see https://firebase.google.com/docs/firestore/best-practices#document_ids
  */
 export async function calculateWeekHash(sunday: Date, uid: string) {
-	const date = formatISO(sunday, {
-		format: 'basic',
-		representation: 'date',
-	});
+	const date = dateInISO(sunday);
 	return Crypto.digestStringAsync(
 		Crypto.CryptoDigestAlgorithm.SHA256,
 		`${uid}.${date}`
 	);
+}
+
+export function dateInISO(date: Date) {
+	return formatISO(date, {
+		format: 'basic',
+		representation: 'date',
+	});
 }
 
 export function dateInWords(date: Date) {

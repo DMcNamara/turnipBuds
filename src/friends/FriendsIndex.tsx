@@ -5,6 +5,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { FAB, Paragraph, Text, Title } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import {
+	Data,
 	ExtendedFirebaseInstance,
 	firestoreConnect,
 	populate,
@@ -59,7 +60,7 @@ function Component(props: Props) {
 	};
 
 	return (
-		<View style={{ flex: 1, margin: 15 }}>
+		<View style={{ flex: 1, margin: 12 }}>
 			<Title>Friends</Title>
 			<FlatList
 				data={friends}
@@ -76,7 +77,7 @@ function Component(props: Props) {
 						haven't joined up yet
 					</Paragraph>
 					<FlatList
-						style={{ marginTop: 15 }}
+						style={{ marginTop: 12 }}
 						data={futureFriends}
 						renderItem={({ item }) => <Text>{item.email}</Text>}
 						keyExtractor={(item) => item.email}
@@ -122,7 +123,7 @@ const connector = connect((state: RootState) => ({
 		state.firestore,
 		FriendsCollection,
 		populates
-	) as { [id: string]: Friend },
+	) as Data<Friend>,
 }));
 
 interface PropsFromRedux extends ConnectedProps<typeof connector> {

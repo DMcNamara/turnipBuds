@@ -24,6 +24,14 @@ export interface User {
 	displayName: string;
 	email: string;
 	id: string;
+	price: {
+		weekId: string;
+		start: string;
+		likeliestPattern: Omit<PriceAnalysis[0], 'matches'> & {
+			matches: string;
+		};
+		mostRecent: number | null;
+	};
 }
 
 export const WeeksCollection = 'weeks';
@@ -47,7 +55,7 @@ export class WeekPrice {
 	}
 
 	id: string = '';
-	start: Date | null = null;
+	start: string | null = null;
 	islandBuyPrice: number | null = null;
 	previousPattern: Pattern | null = null;
 	monAM: number | null = null;

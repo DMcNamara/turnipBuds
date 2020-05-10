@@ -1,7 +1,7 @@
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Text, TextInput } from 'react-native-paper';
 import { WeekPrice } from '../../store/collections';
 
 export function WeekInput(props: {

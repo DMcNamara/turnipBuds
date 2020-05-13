@@ -2,6 +2,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { RouteProp } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
+import { KeyboardAvoidingView } from 'react-native';
 import { connect, ConnectedProps } from 'react-redux';
 import {
 	ExtendedFirebaseInstance,
@@ -16,6 +17,7 @@ import { CenteredActivityIndicator } from '../common/Loading';
 import { HomePredictions } from '../common/predictions/Predictions';
 import { Toast } from '../common/Toast';
 import { calculateWeekHash, dateInISO, getSunday } from '../common/utils';
+import { keyboardAvoidingViewBehavior } from '../constants';
 import { RootState } from '../store';
 import {
 	UsersCollection,
@@ -50,7 +52,10 @@ export function HomeContainer({ route }: HomeContainerProps) {
 	}
 
 	return (
-		<>
+		<KeyboardAvoidingView
+			style={{ flex: 1 }}
+			behavior={keyboardAvoidingViewBehavior}
+		>
 			<Stack.Navigator
 				screenOptions={{
 					...HeaderTheme,
@@ -63,7 +68,7 @@ export function HomeContainer({ route }: HomeContainerProps) {
 				/>
 			</Stack.Navigator>
 			<Toast />
-		</>
+		</KeyboardAvoidingView>
 	);
 }
 

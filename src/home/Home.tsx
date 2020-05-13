@@ -96,6 +96,10 @@ function Week(props: Props) {
 						onChangeText={(text) =>
 							props.onChange(weekPrice.id, 'islandBuyPrice', text)
 						}
+						keyboardType="number-pad"
+						maxLength={3}
+						autoCompleteType="off"
+						autoCorrect={false}
 					/>
 				</Card.Content>
 			</Card>

@@ -10,6 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 				apiKey: '',
 				certificateHash: '',
 			},
+			googleMobileAdsAppId: '',
 			googleMobileAdsAutoInit: false,
 		},
 	},

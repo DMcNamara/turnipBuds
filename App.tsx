@@ -2,16 +2,17 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
+import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { PersistGate } from 'redux-persist/integration/react';
+import './src/common/sentry';
 import { FriendsContainer } from './src/friends/FriendsContainer';
 import { HomeContainer } from './src/home/HomeContainer';
 import { LoginScreen } from './src/login/LoginScreen';
 import { SettingsContainer } from './src/settings/SettingsContainer';
 import { persistor, rrfProps, store, useTypedSelector } from './src/store';
-import './src/common/sentry';
 import { Theme } from './src/theme';
 
 export type TabsScreenList = {
@@ -23,7 +24,10 @@ const Tab = createMaterialBottomTabNavigator<TabsScreenList>();
 function Tabs(props: { uid: string }) {
 	return (
 		<NavigationContainer theme={Theme}>
-			<Tab.Navigator shifting={true}>
+			<Tab.Navigator
+				shifting={true}
+				keyboardHidesNavigationBar={Platform.OS === 'android'}
+			>
 				<Tab.Screen
 					name="Me"
 					component={HomeContainer}

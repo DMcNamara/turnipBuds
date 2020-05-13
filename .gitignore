@@ -12,6 +12,7 @@ web-report/
 
 .env*
 !.env.example
+app.config.ts
 
 # macOS
 .DS_Store

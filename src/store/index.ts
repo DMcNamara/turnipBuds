@@ -1,9 +1,18 @@
+import Constants from 'expo-constants';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/functions';
 import { AsyncStorage } from 'react-native';
-import {
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { FirestoreReducer } from 'react-redux-firebase';
+import { combineReducers, createStore } from 'redux';
+import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
+import { persistReducer, persistStore } from 'redux-persist';
+import { authReducer, AuthState } from './auth/auth.reducer';
+import { toastReducer, ToastState } from './toast/toast.reducer';
+
+const {
 	FB_API_KEY,
 	FB_APP_ID,
 	FB_AUTH_DOMAIN,
@@ -12,14 +21,7 @@ import {
 	FB_MESSAGING_SENDER_ID,
 	FB_PROJECT_ID,
 	FB_STORAGE_BUCKET,
-} from 'react-native-dotenv';
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { FirestoreReducer } from 'react-redux-firebase';
-import { combineReducers, createStore } from 'redux';
-import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
-import { persistReducer, persistStore } from 'redux-persist';
-import { authReducer, AuthState } from './auth/auth.reducer';
-import { toastReducer, ToastState } from './toast/toast.reducer';
+} = Constants.manifest.extra;
 
 firebase.initializeApp({
 	apiKey: FB_API_KEY,

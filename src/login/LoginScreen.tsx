@@ -1,19 +1,25 @@
+import Constants from 'expo-constants';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
-import {
-	GOOGLE_ANDROID_CLIENT_ID,
-	GOOGLE_IOS_CLIENT_ID,
-} from 'react-native-dotenv';
+import { Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import * as Sentry from 'sentry-expo';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
 
+const {
+	GOOGLE_ANDROID_CLIENT_ID,
+	GOOGLE_ANDROID_STANDALONE_CLIENT_ID,
+	GOOGLE_IOS_CLIENT_ID,
+	GOOGLE_IOS_STANDALONE_CLIENT_ID,
+} = Constants.manifest.extra;
 const config: Google.GoogleLogInConfig = {
 	iosClientId: GOOGLE_IOS_CLIENT_ID,
+	iosStandaloneAppClientId: GOOGLE_IOS_STANDALONE_CLIENT_ID,
 	androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+	androidStandaloneAppClientId: GOOGLE_ANDROID_STANDALONE_CLIENT_ID,
 };
 
 export function LoginScreen() {
@@ -65,7 +71,7 @@ export function LoginScreen() {
 	return (
 		<View style={{ marginTop: 50 }}>
 			<Text>Sign In With Google</Text>
-			<Button title="Sign in with Google" onPress={() => login()} />
+			<Button onPress={() => login()}>Sign in with Google</Button>
 		</View>
 	);
 }

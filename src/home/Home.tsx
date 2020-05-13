@@ -20,15 +20,16 @@ type HomeProps = {
 	route: RouteProp<HomeNavigatorScreenList, 'Home'>;
 };
 export function Home({ route }: HomeProps) {
+	const firestore = useFirestore();
+	const weekPrices = useTypedSelector<WeekPrice[]>(
+		({ firestore: { ordered } }) => ordered[WeeksCollection]
+	);
+
 	if (!route.params.uid) {
 		return <></>;
 	}
 	const uid = route.params.uid;
 	const sunday = getSunday();
-	const firestore = useFirestore();
-	const weekPrices = useTypedSelector<WeekPrice[]>(
-		({ firestore: { ordered } }) => ordered[WeeksCollection]
-	);
 
 	async function onChange(id: string, name: keyof WeekPrice, price: string) {
 		if (name !== 'start') {

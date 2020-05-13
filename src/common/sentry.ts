@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
-import { SENTRY_DEBUG, SENTRY_DSN } from 'react-native-dotenv';
 import * as Sentry from 'sentry-expo';
+
+const { SENTRY_DEBUG, SENTRY_DSN } = Constants.manifest.extra;
 
 Sentry.init({
 	dsn: SENTRY_DSN,

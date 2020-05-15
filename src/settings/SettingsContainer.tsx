@@ -7,7 +7,6 @@ import { useFirebase } from 'react-redux-firebase';
 import { actionTypes as fat } from 'redux-firestore';
 import * as Sentry from 'sentry-expo';
 import { BannerAd } from '../common/ads/BannerAd';
-import { Toast } from '../common/Toast';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
 import { HeaderTheme } from '../theme';
 
@@ -17,16 +16,13 @@ export type SettingsContainerScreenList = {
 const Stack = createStackNavigator<SettingsContainerScreenList>();
 export function SettingsContainer() {
 	return (
-		<>
-			<Stack.Navigator
-				screenOptions={{
-					...HeaderTheme,
-				}}
-			>
-				<Stack.Screen name="Settings" component={Settings} />
-			</Stack.Navigator>
-			<Toast />
-		</>
+		<Stack.Navigator
+			screenOptions={{
+				...HeaderTheme,
+			}}
+		>
+			<Stack.Screen name="Settings" component={Settings} />
+		</Stack.Navigator>
 	);
 }
 
@@ -63,7 +59,7 @@ function Settings() {
 				<Button icon="logout" mode="contained" onPress={onLogout}>
 					Log Out
 				</Button>
-				<BannerAd style={{ marginTop: 25 }}/>
+				<BannerAd style={{ marginTop: 25 }} />
 			</View>
 		</ScrollView>
 	);

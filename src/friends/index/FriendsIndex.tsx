@@ -47,6 +47,7 @@ function Component(props: Props) {
 		<View style={{ flex: 1, margin: 12 }}>
 			<Title>Friends</Title>
 			<FlatList
+				contentContainerStyle={{ paddingBottom: 75 }} // so the plus button doesn't cover the last item
 				data={props.friends}
 				renderItem={({ item: { friend } }) => (
 					<FriendCard friend={friend} onPress={onPress} />

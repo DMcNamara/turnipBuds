@@ -23,11 +23,7 @@ function Container(props: FriendsIndexContainerProps) {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen name="Friends" component={FriendsIndex} />
-			<Tab.Screen
-				name="Requests"
-				component={FriendRequestIndex}
-				options={{ tabBarLabel: 'Requests' }}
-			/>
+			<Tab.Screen name="Requests" component={FriendRequestIndex} />
 		</Tab.Navigator>
 	);
 }

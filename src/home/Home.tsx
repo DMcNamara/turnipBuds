@@ -15,6 +15,7 @@ import {
 	WeeksCollection,
 } from '../store/collections';
 import { HomeNavigatorScreenList } from './HomeContainer';
+import { BannerAd } from '../common/ads/BannerAd';
 
 type HomeProps = {
 	route: RouteProp<HomeNavigatorScreenList, 'Home'>;
@@ -79,6 +80,7 @@ function Week(props: Props) {
 	return (
 		<>
 			<Title>Week of {dateInWords(props.sunday)}</Title>
+			<BannerAd />
 			<Card style={styles.cardSpacing}>
 				<Card.Content>
 					<Subheading style={{ marginBottom: 5 }}>

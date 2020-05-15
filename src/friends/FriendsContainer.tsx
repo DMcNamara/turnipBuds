@@ -5,7 +5,7 @@ import { TabsScreenList } from '../../App';
 import { Toast } from '../common/Toast';
 import { User } from '../store/collections';
 import { HeaderTheme } from '../theme';
-import { FriendsIndex } from './FriendsIndex';
+import { FriendsIndexContainer } from './index/FriendsIndexContainer';
 import { FriendViewContainer } from './view/FriendViewContainer';
 
 type Props = {
@@ -33,7 +33,7 @@ export function FriendsContainer(props: Props) {
 			>
 				<Stack.Screen
 					name="Friends"
-					component={FriendsIndex}
+					component={FriendsIndexContainer}
 					initialParams={{ uid: props.route.params.uid }}
 				/>
 				<Stack.Screen

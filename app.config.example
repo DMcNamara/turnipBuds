@@ -20,10 +20,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 			googleSignIn: {
 				reservedClientId: '',
 			},
+			googleMobileAdsAppId: '',
 		},
 	},
 	// set config vars here
 	extras: {
+		ADMOB_BANNER_ANDROID: '',
+		ADMOB_BANNER_IOS: '',
+
 		FB_API_KEY: '',
 		FB_AUTH_DOMAIN: '',
 		FB_DATABASE_URL: '',

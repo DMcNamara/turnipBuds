@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
@@ -69,9 +69,16 @@ export function LoginScreen() {
 	}
 
 	return (
-		<View style={{ marginTop: 50 }}>
-			<Text>Sign In With Google</Text>
-			<Button onPress={() => login()}>Sign in with Google</Button>
+		<View
+			style={{
+				flex: 1,
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}
+		>
+			<Button icon="google" mode="contained" onPress={() => login()}>
+				Sign in with Google
+			</Button>
 		</View>
 	);
 }

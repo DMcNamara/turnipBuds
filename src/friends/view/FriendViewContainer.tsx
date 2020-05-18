@@ -24,6 +24,7 @@ import {
 import { getFriendsWeekPrice } from '../../store/selectors';
 import { FriendsContainerScreenList } from '../FriendsContainer';
 import { FriendView } from './FriendView';
+import { TabTheme } from '../../theme';
 
 type Props = {
 	route: RouteProp<FriendsContainerScreenList, 'FriendView'>;
@@ -68,7 +69,7 @@ interface FriendViewProps {
 type ComponentProps = PropsFromRedux & FriendViewProps;
 function Component(props: ComponentProps) {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator tabBarOptions={TabTheme}>
 			<Tab.Screen
 				name="View"
 				component={FriendView}

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -33,7 +34,7 @@ function Tabs(props: { uid: string }) {
 					component={HomeContainer}
 					options={{
 						tabBarIcon: () => (
-							<MaterialIcons name="person" size={26} />
+							<MaterialIcons name="attach-money" size={26} />
 						),
 					}}
 					initialParams={{ uid: props.uid }}

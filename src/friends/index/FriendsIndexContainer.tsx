@@ -5,6 +5,7 @@ import React from 'react';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { FriendsCollection, UsersCollection } from '../../store/collections';
+import { TabTheme } from '../../theme';
 import { FriendsContainerScreenList } from '../FriendsContainer';
 import { FriendRequestIndex } from './FriendRequestsIndex';
 import { FriendsIndex } from './FriendsIndex';
@@ -21,7 +22,7 @@ export type FriendsIndexContainerScreenList = {
 const Tab = createMaterialTopTabNavigator<FriendsIndexContainerScreenList>();
 function Container(props: FriendsIndexContainerProps) {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator tabBarOptions={TabTheme}>
 			<Tab.Screen name="Friends" component={FriendsIndex} />
 			<Tab.Screen name="Requests" component={FriendRequestIndex} />
 		</Tab.Navigator>

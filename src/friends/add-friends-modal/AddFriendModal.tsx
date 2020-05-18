@@ -18,7 +18,7 @@ interface State {
 }
 
 const initialState = {
-	email: ''
+	email: '',
 };
 
 export class AddFriendModal extends React.PureComponent<Props, State> {
@@ -27,7 +27,7 @@ export class AddFriendModal extends React.PureComponent<Props, State> {
 	onHide = () => {
 		this.setState({ ...initialState });
 		this.props.onHide();
-	}
+	};
 
 	render() {
 		return (
@@ -35,7 +35,10 @@ export class AddFriendModal extends React.PureComponent<Props, State> {
 				<Dialog visible={this.props.visible} onDismiss={this.onHide}>
 					<Dialog.Title>Add Friend</Dialog.Title>
 					<Dialog.Content>
-						<Paragraph>To add a friend, simply enter their email below and press save</Paragraph>
+						<Paragraph>
+							To add a friend, simply enter their email below and
+							press save
+						</Paragraph>
 						<TextInput
 							label="Email"
 							value={this.state.email}
@@ -49,7 +52,11 @@ export class AddFriendModal extends React.PureComponent<Props, State> {
 					</Dialog.Content>
 					<Dialog.Actions>
 						<Button onPress={this.onHide}>Cancel</Button>
-						<Button onPress={() => this.props.onSave(this.state.email)}>Save</Button>
+						<Button
+							onPress={() => this.props.onSave(this.state.email)}
+						>
+							Save
+						</Button>
 					</Dialog.Actions>
 				</Dialog>
 			</Portal>

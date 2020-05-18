@@ -40,8 +40,8 @@ function Component(props: Props) {
 		<View style={{ flex: 1, margin: 12 }}>
 			<Title>Future Friends</Title>
 			<Paragraph>
-				These friends either haven't accepted your request or haven't
-				joined up yet
+				We couldn't find these friends yet, double check their email or
+				invite them to join up!
 			</Paragraph>
 			<FlatList
 				style={{ marginTop: 12 }}

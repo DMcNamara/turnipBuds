@@ -3,9 +3,9 @@ import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
-import { Title } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import { ExtendedFirebaseInstance } from 'react-redux-firebase';
+import { BannerAd } from '../../common/ads/BannerAd';
 import { PlusButton } from '../../common/PlusButton';
 import { RootState } from '../../store';
 import { FriendsCollection, User } from '../../store/collections';
@@ -45,7 +45,7 @@ function Component(props: Props) {
 
 	return (
 		<View style={{ flex: 1, margin: 12 }}>
-			<Title>Friends</Title>
+			<BannerAd />
 			<FlatList
 				contentContainerStyle={{ paddingBottom: 75 }} // so the plus button doesn't cover the last item
 				data={props.friends}

@@ -24,7 +24,7 @@ import {
 	WeekPrice,
 	WeeksCollection,
 } from '../store/collections';
-import { HeaderTheme } from '../theme';
+import { HeaderTheme, TabTheme } from '../theme';
 import { Home } from './Home';
 
 type HomeContainerProps = {
@@ -100,7 +100,7 @@ function HomeNavigatorComponent(props: Props) {
 		return <></>;
 	}
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator tabBarOptions={TabTheme}>
 			<Tab.Screen
 				name="Home"
 				component={Home}

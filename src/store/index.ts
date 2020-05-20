@@ -10,6 +10,10 @@ import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 import { persistReducer, persistStore } from 'redux-persist';
 import { authReducer, AuthState } from './auth/auth.reducer';
+import {
+	friendIndexReducer,
+	FriendIndexState,
+} from './friends/friend-index.reducer';
 import { toastReducer, ToastState } from './toast/toast.reducer';
 
 const {
@@ -49,11 +53,13 @@ const persistConfig = {
 export interface RootState {
 	firestore: FirestoreReducer.Reducer;
 	auth: AuthState;
+	friendIndex: FriendIndexState;
 	toast: ToastState;
 }
 const rootReducer = combineReducers<RootState>({
 	firestore: firestoreReducer as any,
 	auth: authReducer,
+	friendIndex: friendIndexReducer,
 	toast: toastReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

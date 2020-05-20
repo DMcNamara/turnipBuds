@@ -2,12 +2,13 @@ import Constants from 'expo-constants';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import React from 'react';
-import { View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import * as Sentry from 'sentry-expo';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
+import { Theme } from '../theme';
 
 const {
 	GOOGLE_ANDROID_CLIENT_ID,
@@ -69,16 +70,29 @@ export function LoginScreen() {
 	}
 
 	return (
-		<View
-			style={{
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<Button icon="google" mode="contained" onPress={() => login()}>
+		<View style={styles.container}>
+			<Image
+				source={require('../../assets/splash.png')}
+				style={styles.image}
+			/>
+			<Button
+				icon="google"
+				mode="contained"
+				color={Theme.colors.accent}
+				onPress={() => login()}
+			>
 				Sign in with Google
 			</Button>
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'center',
+		backgroundColor: Theme.colors.primary,
+		flex: 1,
+		justifyContent: 'center',
+	},
+	image: { height: 150, width: 150 },
+});

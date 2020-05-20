@@ -10,7 +10,7 @@ export const Theme = {
 		...NavDefaultTheme.colors,
 		...PaperDefaultTheme.colors,
 		primary: Colors.green400,
-		accent: Colors.pinkA100,
+		accent: Colors.redA100,
 	},
 };
 

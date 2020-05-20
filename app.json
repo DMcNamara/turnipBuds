@@ -30,7 +30,7 @@
       "package": "com.dmcnamara.turnipbuds",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/turnip_bud2.png",
+        "foregroundImage": "./assets/transparent_icon_1024.png",
         "backgroundColor": "#66bb6a",
         "backgroundImage": "./assets/bg.png"
       }

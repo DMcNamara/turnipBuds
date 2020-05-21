@@ -1,14 +1,14 @@
 import { zip } from 'lodash';
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import {
 	LineChart,
 	LineChartData,
 	LineChartProps,
 } from 'react-native-chart-kit';
+import { Text } from 'react-native-paper';
 import { Pattern } from '../../constants';
 import { WeekPrice } from '../../store/collections';
-import { CenteredActivityIndicator } from '../Loading';
 
 const labels = [
 	'Sunday',
@@ -33,7 +33,12 @@ export function MinMaxChart(props: { weekPrice: WeekPrice }) {
 	);
 
 	if (!all || !all.matches || !all.matches[0]) {
-		return <CenteredActivityIndicator />;
+		return (
+			<Text style={styles.centered}>
+				Oh no! It looks like we couldn't find a pattern match. Please
+				check your inputs.
+			</Text>
+		);
 	}
 
 	const matches = all.matches;
@@ -67,3 +72,9 @@ export function MinMaxChart(props: { weekPrice: WeekPrice }) {
 
 	return <LineChart {...chartProps} bezier />;
 }
+
+const styles = StyleSheet.create({
+	centered: {
+		textAlign: 'center',
+	},
+});

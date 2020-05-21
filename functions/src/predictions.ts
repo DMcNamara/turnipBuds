@@ -17,7 +17,9 @@ export const setPredictions = functions.firestore
 			if (array.length) {
 				const predictions = StalkMarket.analyzePrices(
 					array,
-					week.previousPattern
+					week.previousPattern && week.previousPattern >= 0
+						? week.previousPattern
+						: undefined
 				);
 				const saveablePredictions = predictions.map(
 					getSaveablePrediction
@@ -93,6 +95,11 @@ function pricesUpdated<T extends FirebaseFirestore.DocumentData | undefined>(
 	if (!beforeWeek || !afterWeek) {
 		return false;
 	}
+
+	if (beforeWeek.previousPattern !== afterWeek.previousPattern) {
+		return true;
+	}
+
 	const beforeArray = getPredictionArray(beforeWeek);
 	const afterArray = getPredictionArray(afterWeek);
 	return beforeArray.some((beforeVal, i) => afterArray[i] !== beforeVal);

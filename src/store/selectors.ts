@@ -8,6 +8,13 @@ import {
 	UsersCollection,
 	WeekPrice,
 } from './collections';
+import { friendSort } from './friends/friends.repo';
+
+export const getFriendIndexState = (state: RootState) => state.friendIndex;
+export const getFriendIndexSort = (state: RootState) =>
+	state.friendIndex.sortBy;
+export const getFriendIndexOrder = (state: RootState) =>
+	state.friendIndex.order;
 
 export const getFriendsWeekPrice = (
 	{ firestore }: RootState,
@@ -36,8 +43,12 @@ export const getAllFriendsEmails = createSelector(getAllFriends, (friends) =>
 	friends.map((f) => f.email)
 );
 
-export const getExistingFriends = createSelector(getAllFriends, (friends) =>
-	friends.filter((f) => f.friend.id)
+export const getExistingFriends = createSelector(
+	getAllFriends,
+	getFriendIndexSort,
+	getFriendIndexOrder,
+	(friends, sortBy, order) =>
+		friends.filter((f) => f.friend.id).sort(friendSort(sortBy, order))
 );
 
 export const getFriendRequestss = createSelector(getAllFriends, (friends) =>

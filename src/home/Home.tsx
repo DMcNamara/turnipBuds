@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Card, Subheading, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
+import { BannerAd } from '../common/ads/BannerAd';
 import { dateInWords, getSunday } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
 import { Pattern } from '../constants';
@@ -15,7 +16,6 @@ import {
 	WeeksCollection,
 } from '../store/collections';
 import { HomeNavigatorScreenList } from './HomeContainer';
-import { BannerAd } from '../common/ads/BannerAd';
 
 type HomeProps = {
 	route: RouteProp<HomeNavigatorScreenList, 'Home'>;

@@ -43,33 +43,46 @@ const patternSortOrder = [
 ];
 function sortByPattern(a: Friend, b: Friend, order: 1 | -1) {
 	const start = dateInISO(getSunday());
+
+	const friendCheck = nullCheck(a.friend, b.friend);
+	if (friendCheck !== null) {
+		return friendCheck;
+	}
+
 	const aPrice = a.friend.price;
 	const bPrice = b.friend.price;
 
 	const priceCheck = nullCheck(aPrice, bPrice);
 	if (priceCheck === null) {
 		// check that a and b are both starting at `start`
-		if (aPrice.start === start) {
-		}
-		const patternCheck = nullCheck(
-			aPrice.likeliestPattern,
-			bPrice.likeliestPattern
+		const startCheck = conditionCheck(
+			aPrice,
+			bPrice,
+			(price) => price.start === start
 		);
-		if (patternCheck === null) {
-			const aPat = patternSortOrder.indexOf(
-				aPrice.likeliestPattern.patternIdx
+		if (!startCheck) {
+			const patternCheck = nullCheck(
+				aPrice.likeliestPattern,
+				bPrice.likeliestPattern
 			);
-			const bPat = patternSortOrder.indexOf(
-				bPrice.likeliestPattern.patternIdx
-			);
+			if (patternCheck === null) {
+				const aPat = patternSortOrder.indexOf(
+					aPrice.likeliestPattern.patternIdx
+				);
+				const bPat = patternSortOrder.indexOf(
+					bPrice.likeliestPattern.patternIdx
+				);
 
-			if (aPat === bPat) {
-				return sortByName(a, b, 1);
+				if (aPat === bPat) {
+					return sortByName(a, b, 1);
+				} else {
+					return aPat < bPat ? -1 : 1;
+				}
 			} else {
-				return aPat < bPat ? -1 : 1;
+				return patternCheck;
 			}
 		} else {
-			return patternCheck;
+			return startCheck;
 		}
 	} else {
 		return priceCheck;
@@ -82,6 +95,18 @@ function nullCheck(aVal: any, bVal: any) {
 	} else if (!aVal && bVal) {
 		return 1;
 	} else if (!aVal && !bVal) {
+		return 0;
+	}
+
+	return null;
+}
+
+function conditionCheck<T>(a: T, b: T, check: (val: T) => boolean) {
+	if (check(a) && !check(b)) {
+		return -1;
+	} else if (!check(a) && check(b)) {
+		return 1;
+	} else if (!check(a) && !check(b)) {
 		return 0;
 	}
 

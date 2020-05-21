@@ -5,7 +5,28 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "android.ts",
+      "android.tsx"
+    ]
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.0",
@@ -46,6 +67,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@expo/config": "^3.2.2",
+    "@types/jest": "^25.2.3",
     "@types/lodash": "^4.14.150",
     "@types/react": "~16.9.23",
     "@types/react-native": "~0.61.17",
@@ -65,8 +87,10 @@
     "eslint-plugin-react-hooks": "^3.0.0",
     "eslint-plugin-react-native": "^3.8.1",
     "firebase-tools": "^8.0.3",
+    "jest-expo": "^37.0.0",
     "prettier": "2.0.5",
     "prettier-plugin-organize-imports": "^1.0.3",
+    "ts-jest": "^26.0.0",
     "typescript": "~3.8.3"
   },
   "private": true

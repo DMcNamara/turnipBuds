@@ -17,7 +17,7 @@ export const setPredictions = functions.firestore
 			if (array.length) {
 				const predictions = StalkMarket.analyzePrices(
 					array,
-					week.previousPattern && week.previousPattern >= 0
+					week.previousPattern !== null && week.previousPattern >= 0
 						? week.previousPattern
 						: undefined
 				);

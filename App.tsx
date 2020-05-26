@@ -33,6 +33,7 @@ function Tabs(props: { uid: string }) {
 					name="Me"
 					component={HomeContainer}
 					options={{
+						tabBarLabel: 'My Week',
 						tabBarIcon: () => (
 							<MaterialIcons name="attach-money" size={26} />
 						),

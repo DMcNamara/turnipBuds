@@ -36,7 +36,7 @@ type HomeContainerScreenList = {
 };
 const Stack = createStackNavigator<HomeContainerScreenList>();
 export function HomeContainer({ route }: HomeContainerProps) {
-	const [weekHash, setWeekHash] = useState('');
+	const [ weekHash, setWeekHash ] = useState('');
 	const uid = route.params.uid;
 	const sunday = getSunday();
 
@@ -45,7 +45,7 @@ export function HomeContainer({ route }: HomeContainerProps) {
 			const digest = await calculateWeekHash(sunday, uid);
 			setWeekHash(digest);
 		})();
-	}, [uid, sunday]);
+	}, [ uid, sunday ]);
 
 	if (!route.params.uid || !weekHash) {
 		return <CenteredActivityIndicator />;
@@ -104,11 +104,11 @@ function HomeNavigatorComponent(props: Props) {
 			<Tab.Screen
 				name="Home"
 				component={Home}
-				options={{ tabBarLabel: 'My Prices' }}
+				options={{ tabBarLabel: 'My Week' }}
 				initialParams={{
 					uid,
 					weekHash,
-					weeks: props[WeeksCollection],
+					weeks: props[ WeeksCollection ],
 				}}
 			/>
 			<Tab.Screen
@@ -134,7 +134,7 @@ const fsConnect = firestoreConnect((props: HomeNavigatorProps) => {
 	];
 });
 const connector = connect((state: RootState) => ({
-	[WeeksCollection]: state.firestore.ordered[WeeksCollection],
+	[ WeeksCollection ]: state.firestore.ordered[ WeeksCollection ],
 }));
 interface PropsFromRedux extends ConnectedProps<typeof connector> {
 	firebase: ExtendedFirebaseInstance;

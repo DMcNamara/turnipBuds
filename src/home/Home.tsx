@@ -23,7 +23,7 @@ type HomeProps = {
 export function Home({ route }: HomeProps) {
 	const firestore = useFirestore();
 	const weekPrices = useTypedSelector<WeekPrice[]>(
-		({ firestore: { ordered } }) => ordered[WeeksCollection]
+		({ firestore: { ordered } }) => ordered[ WeeksCollection ]
 	);
 
 	if (!route.params.uid) {
@@ -35,7 +35,7 @@ export function Home({ route }: HomeProps) {
 	async function onChange(id: string, name: keyof WeekPrice, price: string) {
 		if (name !== 'start') {
 			const updates = {
-				[name]: price === '' ? null : Number(price),
+				[ name ]: price === '' ? null : Number(price),
 			};
 			await firestore.update(
 				{
@@ -68,13 +68,14 @@ type Props = {
 	onChange: (id: string, name: keyof WeekPrice, price: string) => void;
 };
 function Week(props: Props) {
-	const weekPrice = { ...props.weekPrices[0] };
+	const weekPrice = { ...props.weekPrices[ 0 ] };
 
 	const patternOptions = [
 		{ label: 'Unknown', value: '' },
 		{ label: 'Large Spike', value: Pattern.LargeSpike.toString() },
-		{ label: 'Decreasing', value: Pattern.Decreasing.toString() },
 		{ label: 'Small Spike', value: Pattern.SmallSpike.toString() },
+		{ label: 'Fluctuating', value: Pattern.Fluctuating.toString() },
+		{ label: 'Decreasing', value: Pattern.Decreasing.toString() },
 	];
 
 	return (

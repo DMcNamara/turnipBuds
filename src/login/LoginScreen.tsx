@@ -1,13 +1,16 @@
+import * as AppleAuthentication from 'expo-apple-authentication';
 import Constants from 'expo-constants';
+import * as Crypto from 'expo-crypto';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import * as Sentry from 'sentry-expo';
-import { setCurrentUserAction } from '../store/auth/auth.actions';
+import { Toast } from '../common/Toast';
+import { handlePostLogin } from '../store/auth/auth.service';
 import { Theme } from '../theme';
 
 const {
@@ -27,7 +30,18 @@ export function LoginScreen() {
 	const dispatch = useDispatch();
 	const fb = useFirebase();
 
+	const [loading, setLoading] = useState(false);
+	const [showAppleLogin, setShowAppleLogin] = useState(false);
+
+	useEffect(() => {
+		(async () => {
+			const available = await AppleAuthentication.isAvailableAsync();
+			setShowAppleLogin(available);
+		})();
+	});
+
 	async function login() {
+		setLoading(true);
 		const res = await Google.logInAsync(config);
 		if (res.type === 'success') {
 			const credential = firebase.auth.GoogleAuthProvider.credential(
@@ -38,33 +52,47 @@ export function LoginScreen() {
 			const userData = await fb.login({ credential, provider: 'google' });
 
 			if (userData) {
-				await fb
-					.firestore()
-					.collection('users')
-					.doc(userData.user?.uid)
-					.get()
-					.then((profileSnap) => {
-						if (!profileSnap.data() && userData.user) {
-							return profileSnap.ref
-								.set(userData?.user, { merge: true })
-								.then(() => {
-									return userData;
-								});
-						} else {
-							return userData;
-						}
-					})
-					.then((userData) => {
-						dispatch(setCurrentUserAction(userData.user?.uid));
-						Sentry.configureScope((scope) => {
-							scope.setUser({
-								email: userData.user?.email,
-								id: userData.user?.uid,
-							});
-						});
-					});
+				await handlePostLogin(dispatch, fb, userData);
+				setLoading(false);
+			}
+		}
+	}
 
-				await fb.reloadAuth(credential);
+	async function appleLogin() {
+		setLoading(true);
+		try {
+			const nonce = Math.random().toString(36).substring(2, 10);
+			const hashedNonce = await Crypto.digestStringAsync(
+				Crypto.CryptoDigestAlgorithm.SHA256,
+				nonce
+			);
+
+			const credential = await AppleAuthentication.signInAsync({
+				requestedScopes: [
+					AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+					AppleAuthentication.AppleAuthenticationScope.EMAIL,
+				],
+				nonce: hashedNonce,
+			});
+
+			if (credential && credential.user && credential.identityToken) {
+				const provider = new firebase.auth.OAuthProvider('apple.com');
+				const fbCred = provider.credential({
+					idToken: credential.identityToken,
+					rawNonce: nonce,
+				});
+
+				const userData = await fb.login({ credential: fbCred });
+
+				if (userData) {
+					await handlePostLogin(dispatch, fb, userData, credential);
+					setLoading(false);
+				}
+			}
+		} catch (e) {
+			setLoading(false);
+			if (e.code !== 'ERR_CANCELED') {
+				Sentry.captureException(e);
 			}
 		}
 	}
@@ -80,14 +108,35 @@ export function LoginScreen() {
 				mode="contained"
 				color={Theme.colors.accent}
 				onPress={() => login()}
+				loading={loading}
 			>
 				Sign in with Google
 			</Button>
+			{showAppleLogin && (
+				<>
+					<Text style={styles.orMargin}>OR</Text>
+					<AppleAuthentication.AppleAuthenticationButton
+						buttonType={
+							AppleAuthentication.AppleAuthenticationButtonType
+								.SIGN_IN
+						}
+						buttonStyle={
+							AppleAuthentication.AppleAuthenticationButtonStyle
+								.BLACK
+						}
+						cornerRadius={5}
+						style={styles.appleButton}
+						onPress={appleLogin}
+					/>
+				</>
+			)}
+			<Toast />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	appleButton: { height: 44, marginTop: 50, width: 200 },
 	container: {
 		alignItems: 'center',
 		backgroundColor: Theme.colors.primary,
@@ -95,4 +144,5 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	image: { height: 150, width: 150 },
+	orMargin: { marginTop: 50 },
 });

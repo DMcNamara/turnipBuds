@@ -5,7 +5,10 @@ import 'firebase/firestore';
 import 'firebase/functions';
 import { AsyncStorage } from 'react-native';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { FirestoreReducer } from 'react-redux-firebase';
+import {
+	FirestoreReducer,
+	ReactReduxFirebaseProviderProps,
+} from 'react-redux-firebase';
 import { combineReducers, createStore } from 'redux';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -76,7 +79,7 @@ const rrfConfig = {
 
 export const store = createStore(persistedReducer);
 export const persistor = persistStore(store);
-export const rrfProps = {
+export const rrfProps: ReactReduxFirebaseProviderProps = {
 	firebase,
 	config: rrfConfig,
 	dispatch: store.dispatch,

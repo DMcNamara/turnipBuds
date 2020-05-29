@@ -24,7 +24,8 @@
     "ios": {
       "bundleIdentifier": "com.dmcnamara.turnipbuds",
       "buildNumber": "1.0.2",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "usesAppleSignIn": true
     },
     "android": {
       "package": "com.dmcnamara.turnipbuds",

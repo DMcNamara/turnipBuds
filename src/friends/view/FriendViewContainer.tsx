@@ -22,9 +22,9 @@ import {
 	WeeksCollection,
 } from '../../store/collections';
 import { getFriendsWeekPrice } from '../../store/selectors';
+import { TabTheme } from '../../theme';
 import { FriendsContainerScreenList } from '../FriendsContainer';
 import { FriendView } from './FriendView';
-import { TabTheme } from '../../theme';
 
 type Props = {
 	route: RouteProp<FriendsContainerScreenList, 'FriendView'>;

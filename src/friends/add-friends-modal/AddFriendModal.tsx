@@ -29,6 +29,11 @@ export class AddFriendModal extends React.PureComponent<Props, State> {
 		this.props.onHide();
 	};
 
+	onSave = (email: string) => {
+		this.setState({ ...initialState });
+		this.props.onSave(email);
+	};
+
 	render() {
 		return (
 			<Portal>
@@ -52,9 +57,7 @@ export class AddFriendModal extends React.PureComponent<Props, State> {
 					</Dialog.Content>
 					<Dialog.Actions>
 						<Button onPress={this.onHide}>Cancel</Button>
-						<Button
-							onPress={() => this.props.onSave(this.state.email)}
-						>
+						<Button onPress={() => this.onSave(this.state.email)}>
 							Save
 						</Button>
 					</Dialog.Actions>

@@ -6,7 +6,10 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import {
+	ReactReduxFirebaseProvider,
+	useFirestoreConnect,
+} from 'react-redux-firebase';
 import { PersistGate } from 'redux-persist/integration/react';
 import './src/common/sentry';
 import { FriendsContainer } from './src/friends/FriendsContainer';
@@ -23,6 +26,10 @@ export type TabsScreenList = {
 };
 const Tab = createMaterialBottomTabNavigator<TabsScreenList>();
 function Tabs(props: { uid: string }) {
+	useFirestoreConnect([
+		{ collection: 'users', doc: props.uid, storeAs: 'profile' },
+	]);
+
 	return (
 		<NavigationContainer theme={Theme}>
 			<Tab.Navigator

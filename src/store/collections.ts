@@ -32,6 +32,7 @@ export interface User {
 		};
 		mostRecent: number | null;
 	};
+	pro: boolean;
 }
 
 export const WeeksCollection = 'weeks';

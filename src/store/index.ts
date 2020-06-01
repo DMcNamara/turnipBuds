@@ -74,7 +74,7 @@ const rrfConfig = {
 	userProfile: 'users',
 	enableRedirectHandling: false,
 	enableLogging: true,
-	updateProfileOnLogin: true,
+	updateProfileOnLogin: false,
 };
 
 export const store = createStore(persistedReducer);

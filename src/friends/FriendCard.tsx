@@ -47,7 +47,7 @@ export function FriendCard(props: {
 								}
 							</Subheading>
 							<Subheading style={styles.col}>
-								{price.likeliestPattern.probability}%
+								{price.likeliestPattern.probability.toFixed(2)}%
 							</Subheading>
 							<Subheading style={styles.col}>{max}</Subheading>
 						</View>

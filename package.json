@@ -6,7 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "simulate": "firebase emulators:start --only functions,firestore",
+    "dev": "concurrently -n \"func,simulator\" -c \"blue,green\" \"cd ./functions && npm run watch\" \"npm run simulate\""
   },
   "jest": {
     "preset": "jest-expo",
@@ -41,6 +43,7 @@
     "expo-apple-authentication": "~2.1.0",
     "expo-crypto": "~8.1.0",
     "expo-google-app-auth": "^8.1.0",
+    "expo-localization": "~8.1.0",
     "firebase": "7.9.0",
     "lodash": "^4.17.15",
     "react": "~16.9.0",
@@ -78,6 +81,7 @@
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "babel-preset-expo": "~8.1.0",
+    "concurrently": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.1",

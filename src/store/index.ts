@@ -30,7 +30,9 @@ const {
 	FB_STORAGE_BUCKET,
 } = Constants.manifest.extra;
 
-firebase.initializeApp({
+const useEmulator = __DEV__;
+
+const fbConfig = {
 	apiKey: FB_API_KEY,
 	authDomain: FB_AUTH_DOMAIN,
 	databaseURL: FB_DATABASE_URL,
@@ -39,10 +41,31 @@ firebase.initializeApp({
 	messagingSenderId: FB_MESSAGING_SENDER_ID,
 	appId: FB_APP_ID,
 	measurementId: FB_MEASUREMENT_ID,
-});
+};
 
-firebase.firestore();
+if (useEmulator) {
+	fbConfig.databaseURL = `http://localhost:9000?ns=${fbConfig.projectId}`;
+	console.debug(`Using RTDB emulator: ${fbConfig.databaseURL}`);
+}
+firebase.initializeApp(fbConfig);
+
+if (useEmulator) {
+	const firestoreSettings = {
+		host: 'localhost:8081',
+		ssl: false,
+	};
+
+	console.debug(`Using Firestore emulator: ${firestoreSettings.host}`);
+
+	firebase.firestore().settings(firestoreSettings);
+} else {
+	firebase.firestore();
+}
+
 const functions = firebase.functions();
+if (useEmulator) {
+	functions.useFunctionsEmulator('http://localhost:5001');
+}
 
 // Cloud Functions
 export const Functions = {

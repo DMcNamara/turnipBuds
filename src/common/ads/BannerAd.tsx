@@ -18,16 +18,17 @@ export function BannerAd(props: { style?: StyleProp<ViewStyle> }) {
 	);
 	return (
 		<>
-			{!!user.pro === false && (
-				<AdMobBanner
-					style={props.style}
-					adUnitID={adUnitId}
-					servePersonalizedAds
-					onDidFailToReceiveAdWithError={(e) =>
-						Sentry.captureException(e)
-					}
-				/>
-			)}
+			{!user ||
+				(!!user.pro === false && (
+					<AdMobBanner
+						style={props.style}
+						adUnitID={adUnitId}
+						servePersonalizedAds
+						onDidFailToReceiveAdWithError={(e) =>
+							Sentry.captureException(e)
+						}
+					/>
+				))}
 		</>
 	);
 }

@@ -88,7 +88,11 @@ function CurrentPrice(props: { friend: User }) {
 	};
 
 	const getPriceDisplay = () => {
-		if (friend.price?.mostRecentTime === time) {
+		if (
+			friend.price?.mostRecentTime === time ||
+			(friend.price?.mostRecentTime === 'islandBuyPrice' &&
+				time.includes('sun'))
+		) {
 			return friend.price?.mostRecent;
 		} else {
 			return '-';

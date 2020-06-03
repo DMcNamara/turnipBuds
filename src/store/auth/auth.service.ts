@@ -29,8 +29,8 @@ export async function handlePostLogin(
 			.doc(uid)
 			.get()
 			.then((profileSnap) => {
-				const profile = profileSnap.data() as User;
-				if (!profile.timezone) {
+				const profile = profileSnap.data() as User | undefined;
+				if (!profile || !profile.timezone) {
 					user.timezone = Localization.timezone;
 					updateUser = true;
 				}

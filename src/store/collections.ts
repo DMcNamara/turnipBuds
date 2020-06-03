@@ -30,9 +30,12 @@ export interface User {
 		likeliestPattern: Omit<PriceAnalysis[0], 'matches'> & {
 			matches: string;
 		};
-		mostRecent: number | null;
+		mostRecent?: number;
+		/** when the most recent value occurred, eg: monAM */
+		mostRecentTime?: string;
 	};
-	pro: boolean;
+	pro?: boolean;
+	timezone?: string;
 }
 
 export const WeeksCollection = 'weeks';

@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import timezones from 'compact-timezone-list';
+import React, { useState } from 'react';
 import { Clipboard, StyleSheet, View } from 'react-native';
 import { Button, Caption, Card, IconButton, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
@@ -8,9 +9,12 @@ import { actionTypes as fat } from 'redux-firestore';
 import * as Sentry from 'sentry-expo';
 import { BannerAd } from '../common/ads/BannerAd';
 import { Toast } from '../common/Toast';
+import { useTypedSelector } from '../store';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
+import { User } from '../store/collections';
 import { toastAction } from '../store/toast/toast.actions';
 import { HeaderTheme } from '../theme';
+import { TimeZoneModal } from './TimezoneModal';
 
 export type SettingsContainerScreenList = {
 	Settings: { uid: string };
@@ -34,7 +38,11 @@ export function SettingsContainer() {
 function Settings() {
 	const firebase = useFirebase();
 	const dispatch = useDispatch();
+	const [tzModalVisible, setTzModalVisibile] = useState(false);
 	const user = firebase.auth().currentUser;
+	const userProfile = useTypedSelector<User | undefined>(
+		(state) => state.firestore.data.profile
+	);
 
 	const copyEmail = () => {
 		if (user?.email) {
@@ -42,8 +50,9 @@ function Settings() {
 			dispatch(toastAction('Email Copied!'));
 		}
 	};
+
 	const onLogout = async () => {
-		await firebase.logout().then(
+		return firebase.logout().then(
 			() => {
 				console.log('logged out');
 				dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
@@ -56,6 +65,20 @@ function Settings() {
 		);
 	};
 
+	const timeZoneDisplay = (tzCode: string | undefined) => {
+		if (tzCode) {
+			const timeZone = timezones.find((tz: any) => tz.tzCode === tzCode);
+			return timeZone.label || '-';
+		} else {
+			return '-';
+		}
+	};
+
+	const updateUser = async (user: Partial<User>) => {
+		setTzModalVisibile(false);
+		return firebase.updateProfile(user, { merge: true });
+	};
+
 	return (
 		<View style={styles.container}>
 			<Card style={styles.card}>
@@ -66,11 +89,26 @@ function Settings() {
 
 					<Text>Email:</Text>
 					<View style={styles.inline}>
-						<Caption style={styles.email}>{user?.email}</Caption>
+						<Caption style={styles.inlineData}>
+							{user?.email}
+						</Caption>
 						<IconButton
-							style={styles.icon}
+							style={styles.inlineIcon}
 							icon="content-copy"
 							onPress={copyEmail}
+							size={16}
+						/>
+					</View>
+
+					<Text>Island Time Zone:</Text>
+					<View style={styles.inline}>
+						<Caption style={styles.inlineData}>
+							{timeZoneDisplay(userProfile?.timezone)}
+						</Caption>
+						<IconButton
+							style={styles.inlineIcon}
+							icon="pencil"
+							onPress={() => setTzModalVisibile(true)}
 							size={16}
 						/>
 					</View>
@@ -81,6 +119,12 @@ function Settings() {
 			</Button>
 
 			<BannerAd style={styles.bannerMargin} />
+			<TimeZoneModal
+				currentTimeZone={userProfile?.timezone}
+				visible={tzModalVisible}
+				onHide={() => setTzModalVisibile(false)}
+				onSave={(tz) => updateUser({ timezone: tz })}
+			/>
 		</View>
 	);
 }
@@ -91,12 +135,12 @@ const styles = StyleSheet.create({
 	container: {
 		margin: 12,
 	},
-	email: {
-		width: '75%',
-	},
-	icon: { width: '24%' },
 	inline: {
 		alignItems: 'center',
 		flexDirection: 'row',
 	},
+	inlineData: {
+		width: '75%',
+	},
+	inlineIcon: { width: '24%' },
 });

@@ -64,21 +64,30 @@ function getPredictionArray(week: any) {
 	].map((val: any) => parseInt(val));
 }
 
-function getMostRecentValue(week: any): number | null {
+function getMostRecentValue(week: any) {
 	return (
-		week.satPM ||
-		week.satAM ||
-		week.friPM ||
-		week.friAM ||
-		week.thuPM ||
-		week.thuAM ||
-		week.wedPM ||
-		week.wedAM ||
-		week.tuePM ||
-		week.tueAM ||
-		week.monPM ||
-		week.monAM
+		getRecentValueObj(week.satPM, 'satPM') ||
+		getRecentValueObj(week.satAM, 'satAM') ||
+		getRecentValueObj(week.friPM, 'friPM') ||
+		getRecentValueObj(week.friAM, 'friAM') ||
+		getRecentValueObj(week.thuPM, 'thuPM') ||
+		getRecentValueObj(week.thuAM, 'thuAM') ||
+		getRecentValueObj(week.wedPM, 'wedPM') ||
+		getRecentValueObj(week.wedAM, 'wedAM') ||
+		getRecentValueObj(week.tuePM, 'tuePM') ||
+		getRecentValueObj(week.tueAM, 'tueAM') ||
+		getRecentValueObj(week.monPM, 'monPM') ||
+		getRecentValueObj(week.monAM, 'monAM') ||
+		getRecentValueObj(week.islandBuyPrice, 'islandBuyPrice')
 	);
+}
+
+function getRecentValueObj(value: number | null, time: string) {
+	if (value) {
+		return { value, time };
+	} else {
+		return null;
+	}
 }
 
 function getSaveablePrediction(prediction: StalkMarket.PriceAnalysis[0]) {
@@ -123,13 +132,15 @@ async function updateUserWithLatestPriceInfo(
 	);
 
 	const usersCollection = firestore.collection('users');
+	const recent = getMostRecentValue(week);
 	await usersCollection.doc(userId).set(
 		{
 			price: {
 				weekId: weekId,
 				start: week.start,
 				likeliestPattern,
-				mostRecent: getMostRecentValue(week),
+				mostRecent: recent?.value,
+				mostRecentTime: recent?.time,
 			},
 		},
 		{ merge: true }

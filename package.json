@@ -7,8 +7,9 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
-    "simulate": "firebase emulators:start --only functions,firestore",
-    "dev": "concurrently -n \"func,simulator\" -c \"blue,green\" \"cd ./functions && npm run watch\" \"npm run simulate\""
+    "simulate": "firebase emulators:start --import=fsData",
+    "export": "firebase emulators:export fsData",
+    "dev": "concurrently -n \"func,simulator,expo\" -c \"blue,green,yellow\" \"cd ./functions && npm run watch\" \"npm run simulate\" \"npm run start\""
   },
   "jest": {
     "preset": "jest-expo",
@@ -37,7 +38,9 @@
     "@react-navigation/material-top-tabs": "^5.1.14",
     "@react-navigation/native": "^5.2.3",
     "@react-navigation/stack": "^5.2.10",
+    "compact-timezone-list": "^1.0.6",
     "date-fns": "^2.12.0",
+    "date-fns-tz": "^1.0.10",
     "expo": "~37.0.3",
     "expo-ads-admob": "~8.1.0",
     "expo-apple-authentication": "~2.1.0",
@@ -91,7 +94,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "eslint-plugin-react-native": "^3.8.1",
-    "firebase-tools": "^8.0.3",
+    "firebase-tools": "^8.4.1",
     "jest-expo": "^37.0.0",
     "prettier": "2.0.5",
     "prettier-plugin-organize-imports": "^1.0.3",

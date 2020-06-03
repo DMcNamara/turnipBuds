@@ -20,3 +20,6 @@ app.config.ts
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# firestore siumulator data
+fsData/*

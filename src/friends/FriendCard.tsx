@@ -1,6 +1,8 @@
+import { getDay } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, Caption, Card, Subheading } from 'react-native-paper';
+import { Avatar, Caption, Card, Subheading, Text } from 'react-native-paper';
 import { dateInISO, getSunday } from '../common/utils';
 import { PatternNames } from '../constants';
 import { User } from '../store/collections';
@@ -25,10 +27,11 @@ export function FriendCard(props: {
 				title={props.friend.displayName}
 				left={() => (
 					<Avatar.Image
-						size={24}
+						size={28}
 						source={{ uri: props.friend.avatarUrl }}
 					/>
 				)}
+				right={() => <CurrentPrice friend={props.friend} />}
 			/>
 			<Card.Content>
 				{price?.start === start && (
@@ -65,6 +68,49 @@ export function FriendCard(props: {
 	);
 }
 
+function CurrentPrice(props: { friend: User }) {
+	const { friend } = props;
+
+	const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+	let date: Date | null = null;
+	let time: string = '';
+	if (friend.timezone) {
+		date = utcToZonedTime(new Date(), friend.timezone);
+		const day = days[Number(format(date, 'i'))];
+		time = `${day}${format(date, 'a')}`;
+	}
+
+	const getDayDisplay = () => {
+		if (date) {
+			return getDay(date) === 0 ? 'Buy' : format(date, 'iii a');
+		}
+		return '';
+	};
+
+	const getPriceDisplay = () => {
+		if (
+			friend.price?.mostRecentTime === time ||
+			(friend.price?.mostRecentTime === 'islandBuyPrice' &&
+				time.includes('sun'))
+		) {
+			return friend.price?.mostRecent;
+		} else {
+			return '-';
+		}
+	};
+
+	if (date) {
+		return (
+			<View style={styles.currentPrice}>
+				<Caption>{getDayDisplay()}</Caption>
+				<Text style={styles.price}>{getPriceDisplay()}</Text>
+			</View>
+		);
+	} else {
+		return <></>;
+	}
+}
+
 const styles = StyleSheet.create({
 	center: {
 		textAlign: 'center',
@@ -76,8 +122,15 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	currentPrice: {
+		alignItems: 'center',
+		marginRight: 12,
+	},
 	margin: {
 		marginTop: 12,
+	},
+	price: {
+		fontSize: 18,
 	},
 	row: {
 		flex: 1,

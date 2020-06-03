@@ -149,7 +149,7 @@ function HalfDayInput(props: {
 		typeof props.onChange === 'function' ? props.onChange : () => null;
 
 	const [value, setValue] = useState(props.value?.toString() || undefined);
-	const debouncedOnChange = debounce(tempOnChange, 500);
+	const debouncedOnChange = debounce(tempOnChange, 1000);
 
 	const onChange = (text: string) => {
 		setValue(text);

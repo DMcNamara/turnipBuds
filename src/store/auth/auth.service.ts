@@ -1,8 +1,10 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Localization from 'expo-localization';
 import { omit } from 'lodash';
 import { DispatchProp } from 'react-redux';
 import { constants, useFirebase } from 'react-redux-firebase';
 import * as Sentry from 'sentry-expo';
+import { User } from '../collections';
 import { toastAction } from '../toast/toast.actions';
 import { setCurrentUserAction } from './auth.actions';
 
@@ -15,7 +17,7 @@ export async function handlePostLogin(
 	if (userData && userData.user) {
 		const uid = userData.user.uid;
 
-		const { user, updateUser } = await getAndUpdateFirebaseUser(
+		let { user, updateUser } = await getAndUpdateFirebaseUser(
 			dispatch,
 			userData.user,
 			credential
@@ -27,7 +29,12 @@ export async function handlePostLogin(
 			.doc(uid)
 			.get()
 			.then((profileSnap) => {
-				if (user && (!profileSnap.data() || updateUser)) {
+				const profile = profileSnap.data() as User | undefined;
+				if (!profile || !profile.timezone) {
+					user.timezone = Localization.timezone;
+					updateUser = true;
+				}
+				if (user && (!profile || updateUser)) {
 					return profileSnap.ref
 						.set(user, { merge: true })
 						.then(() => user);
@@ -82,6 +89,9 @@ function buildUser(
 	return { user, updateUser };
 }
 
+/**
+ * Builds the user attrs to update, and updates the FireBase Auth user if needed
+ */
 async function getAndUpdateFirebaseUser(
 	dispatch: DispatchProp['dispatch'],
 	firebaseUser: firebase.User,

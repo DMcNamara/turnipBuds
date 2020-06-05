@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import timezones from 'compact-timezone-list';
 import React, { useState } from 'react';
-import { Clipboard, StyleSheet, View } from 'react-native';
+import { Clipboard, Linking, StyleSheet, View } from 'react-native';
 import { Button, Caption, Card, IconButton, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
@@ -114,6 +114,31 @@ function Settings() {
 					</View>
 				</Card.Content>
 			</Card>
+			<Card style={styles.card}>
+				<Card.Title title="Feedback, bugs or just want to connect?" />
+				<Card.Content>
+					<Button
+						icon="discord"
+						mode="outlined"
+						onPress={() =>
+							Linking.openURL('https://discord.gg/3WTnPhs')
+						}
+						style={styles.buttonMargin}
+					>
+						Join the Discord
+					</Button>
+					<Button
+						icon="email"
+						mode="outlined"
+						onPress={() =>
+							Linking.openURL('mailto:turnip.buds.app@gmail.com')
+						}
+						style={styles.buttonMargin}
+					>
+						Send an Email
+					</Button>
+				</Card.Content>
+			</Card>
 			<Button icon="logout" mode="contained" onPress={onLogout}>
 				Log Out
 			</Button>
@@ -130,7 +155,8 @@ function Settings() {
 }
 
 const styles = StyleSheet.create({
-	bannerMargin: { marginTop: 25 },
+	bannerMargin: { marginTop: 20 },
+	buttonMargin: { marginTop: 12 },
 	card: { marginBottom: 12 },
 	container: {
 		margin: 12,

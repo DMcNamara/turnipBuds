@@ -45,7 +45,7 @@ function Component(props: Props) {
 
 	return (
 		<View style={{ flex: 1, margin: 12 }}>
-			<BannerAd />
+			{/* <BannerAd /> */}
 			<FlatList
 				contentContainerStyle={{ paddingBottom: 75 }} // so the plus button doesn't cover the last item
 				data={props.friends}

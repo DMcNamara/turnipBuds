@@ -123,7 +123,7 @@ function Settings() {
 						onPress={() =>
 							Linking.openURL('https://discord.gg/3WTnPhs')
 						}
-						style={styles.discordMargin}
+						style={styles.buttonMargin}
 					>
 						Join the Discord
 					</Button>
@@ -133,7 +133,7 @@ function Settings() {
 						onPress={() =>
 							Linking.openURL('mailto:turnip.buds.app@gmail.com')
 						}
-						style={styles.discordMargin}
+						style={styles.buttonMargin}
 					>
 						Send an Email
 					</Button>
@@ -156,11 +156,11 @@ function Settings() {
 
 const styles = StyleSheet.create({
 	bannerMargin: { marginTop: 25 },
+	buttonMargin: { marginVertical: 12 },
 	card: { marginBottom: 12 },
 	container: {
 		margin: 12,
 	},
-	discordMargin: { marginVertical: 12, width: 'auto' },
 	inline: {
 		alignItems: 'center',
 		flexDirection: 'row',

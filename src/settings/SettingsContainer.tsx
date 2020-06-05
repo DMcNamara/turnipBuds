@@ -155,8 +155,8 @@ function Settings() {
 }
 
 const styles = StyleSheet.create({
-	bannerMargin: { marginTop: 25 },
-	buttonMargin: { marginVertical: 12 },
+	bannerMargin: { marginTop: 20 },
+	buttonMargin: { marginTop: 12 },
 	card: { marginBottom: 12 },
 	container: {
 		margin: 12,

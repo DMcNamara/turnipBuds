@@ -2,6 +2,9 @@
 **/*.js
 **/*.js.map
 
+# ...except the Jest config, which is source we want tracked
+!jest.config.js
+
 # Typescript v1 declaration files
 typings/
 

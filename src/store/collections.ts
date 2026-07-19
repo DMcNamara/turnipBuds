@@ -34,7 +34,6 @@ export interface User {
 		/** when the most recent value occurred, eg: monAM */
 		mostRecentTime?: string;
 	};
-	pro?: boolean;
 	timezone?: string;
 }
 

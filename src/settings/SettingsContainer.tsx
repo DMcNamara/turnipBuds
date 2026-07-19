@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import { actionTypes as fat } from 'redux-firestore';
 import * as Sentry from 'sentry-expo';
-import { BannerAd } from '../common/ads/BannerAd';
 import { Toast } from '../common/Toast';
 import { useTypedSelector } from '../store';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
@@ -143,7 +142,6 @@ function Settings() {
 				Log Out
 			</Button>
 
-			<BannerAd style={styles.bannerMargin} />
 			<TimeZoneModal
 				currentTimeZone={userProfile?.timezone}
 				visible={tzModalVisible}
@@ -155,7 +153,6 @@ function Settings() {
 }
 
 const styles = StyleSheet.create({
-	bannerMargin: { marginTop: 20 },
 	buttonMargin: { marginTop: 12 },
 	card: { marginBottom: 12 },
 	container: {

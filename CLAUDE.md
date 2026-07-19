@@ -33,7 +33,7 @@ Inside `functions/`:
 - `npm run deploy` — `firebase deploy --only functions`.
 - `npm run logs` — `firebase functions:log`.
 
-CI (`.github/workflows/`) runs `yarn test` on push/PR to `master`.
+CI (`.github/workflows/`) runs `yarn test` on push/PR to `main`.
 
 ## Architecture
 

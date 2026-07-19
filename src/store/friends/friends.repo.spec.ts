@@ -21,7 +21,6 @@ const defaultUser: User = {
 	email: '',
 	id: '',
 	price: defaultPrice,
-	pro: false,
 };
 describe('friendsRepo', () => {
 	const a: Friend = {

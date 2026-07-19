@@ -5,7 +5,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Card, Subheading, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
-import { BannerAd } from '../common/ads/BannerAd';
 import { dateInWords, getSunday } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
 import { Pattern } from '../constants';
@@ -81,7 +80,6 @@ function Week(props: Props) {
 	return (
 		<>
 			<Title>Week of {dateInWords(props.sunday)}</Title>
-			<BannerAd />
 			<Card style={styles.cardSpacing}>
 				<Card.Content>
 					<Subheading style={{ marginBottom: 5 }}>

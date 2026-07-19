@@ -5,12 +5,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import {
 	ExtendedFirebaseInstance,
 	firestoreConnect,
+	isEmpty,
+	isLoaded,
 } from 'react-redux-firebase';
 import { compose } from 'redux';
 import {
 	CenteredActivityIndicator,
-	renderIfEmpty,
-	spinnerWhileLoading,
+	EmptyState,
+	SpinnerWhileLoading,
 } from '../../common/Loading';
 import { FriendPredictions } from '../../common/predictions/Predictions';
 import { calculateWeekHash, getSunday } from '../../common/utils';
@@ -68,25 +70,33 @@ interface FriendViewProps {
 }
 type ComponentProps = PropsFromRedux & FriendViewProps;
 function Component(props: ComponentProps) {
+	const friendsWeek = props[FriendsWeekCollection];
 	return (
-		<Tab.Navigator tabBarOptions={TabTheme}>
-			<Tab.Screen
-				name="View"
-				component={FriendView}
-				options={{ tabBarLabel: 'Prices' }}
-				initialParams={{
-					sunday: props.sunday,
-					weekHash: props.weekHash,
-				}}
-			/>
-			<Tab.Screen
-				name="Predictions"
-				component={FriendPredictions}
-				initialParams={{
-					weekHash: props.weekHash,
-				}}
-			/>
-		</Tab.Navigator>
+		<SpinnerWhileLoading loading={!isLoaded(friendsWeek)}>
+			<EmptyState
+				empty={isLoaded(friendsWeek) && isEmpty(friendsWeek)}
+				message="Your friend has no data for this week!"
+			>
+				<Tab.Navigator tabBarOptions={TabTheme}>
+					<Tab.Screen
+						name="View"
+						component={FriendView}
+						options={{ tabBarLabel: 'Prices' }}
+						initialParams={{
+							sunday: props.sunday,
+							weekHash: props.weekHash,
+						}}
+					/>
+					<Tab.Screen
+						name="Predictions"
+						component={FriendPredictions}
+						initialParams={{
+							weekHash: props.weekHash,
+						}}
+					/>
+				</Tab.Navigator>
+			</EmptyState>
+		</SpinnerWhileLoading>
 	);
 }
 /**
@@ -113,10 +123,5 @@ export const FriendViewNavigator = compose<
 	(props: FriendViewProps) => JSX.Element
 >(
 	fsConnect,
-	connector,
-	spinnerWhileLoading([FriendsWeekCollection]),
-	renderIfEmpty(
-		[FriendsWeekCollection],
-		'Your friend has no data for this week!'
-	)
+	connector
 )(Component);

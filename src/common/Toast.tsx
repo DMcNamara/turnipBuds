@@ -1,40 +1,30 @@
 import React from 'react';
 import { Snackbar } from 'react-native-paper';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { hideToastAction } from '../store/toast/toast.actions';
 
-class Component extends React.PureComponent<PropsFromRedux> {
-	onDismiss = () => {
-		this.props.dispatch(hideToastAction());
+export const Toast = () => {
+	const dispatch = useDispatch();
+	const message = useSelector((state: RootState) => state.toast.message);
+	const duration = useSelector((state: RootState) => state.toast.duration);
+	const visible = useSelector((state: RootState) => state.toast.visible);
+
+	const onDismiss = () => {
+		dispatch(hideToastAction());
 	};
 
-	render() {
-		return (
-			<Snackbar
-				visible={this.props.visible}
-				onDismiss={this.onDismiss}
-				duration={this.props.duration}
-				action={{
-					label: 'OK',
-					onPress: this.onDismiss,
-				}}
-			>
-				{this.props.message}
-			</Snackbar>
-		);
-	}
-}
-
-/**
- * CONNECT
- */
-const connector = connect((state: RootState) => ({
-	message: state.toast.message,
-	duration: state.toast.duration,
-	visible: state.toast.visible,
-}));
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export const Toast = connector(Component);
+	return (
+		<Snackbar
+			visible={visible}
+			onDismiss={onDismiss}
+			duration={duration}
+			action={{
+				label: 'OK',
+				onPress: onDismiss,
+			}}
+		>
+			{message}
+		</Snackbar>
+	);
+};

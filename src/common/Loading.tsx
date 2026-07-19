@@ -1,9 +1,6 @@
-import { get, some } from 'lodash';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator, Title } from 'react-native-paper';
-import { isEmpty, isLoaded } from 'react-redux-firebase';
-import { branch, renderComponent } from 'recompose';
 
 export function CenteredActivityIndicator() {
 	return (
@@ -24,7 +21,7 @@ function EmptyMessage({ message }: { message: string }) {
 			style={{
 				flex: 1,
 				justifyContent: 'center',
-				alignItems: 'center'
+				alignItems: 'center',
 			}}
 		>
 			<Title>{message}</Title>
@@ -32,31 +29,32 @@ function EmptyMessage({ message }: { message: string }) {
 	);
 }
 
-// HOC that shows a component while condition is true
-export function renderWhile(
-	condition: (props: any) => boolean,
-	component: any
-) {
-	return branch(condition, renderComponent(component));
+// Shows a loading spinner while `loading` is true, otherwise renders children.
+export function SpinnerWhileLoading({
+	loading,
+	children,
+}: {
+	loading: boolean;
+	children: ReactNode;
+}) {
+	if (loading) {
+		return <CenteredActivityIndicator />;
+	}
+	return <>{children}</>;
 }
 
-// HOC that shows loading spinner component while list of propNames are loading
-export function spinnerWhileLoading(propNames: string[]) {
-	return renderWhile(
-		(props: any) => some(propNames, (name) => !isLoaded(get(props, name))),
-		CenteredActivityIndicator
-	);
-}
-
-// HOC that shows a component while any of a list of props isEmpty
-export function renderIfEmpty(propNames: string[], message: string) {
-	return renderWhile(
-		// Any of the listed prop name correspond to empty props (supporting dot path names)
-		(props) =>
-			some(propNames, (name) => {
-				const propValue = get(props, name);
-				return isLoaded(propValue) && isEmpty(propValue);
-			}),
-		() => <EmptyMessage message={message} />
-	);
+// Shows an empty-state message while `empty` is true, otherwise renders children.
+export function EmptyState({
+	empty,
+	message,
+	children,
+}: {
+	empty: boolean;
+	message: string;
+	children: ReactNode;
+}) {
+	if (empty) {
+		return <EmptyMessage message={message} />;
+	}
+	return <>{children}</>;
 }

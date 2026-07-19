@@ -7,6 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
+    "test:functions:integration": "firebase emulators:exec --only firestore \"npm --prefix functions run test:integration\"",
     "simulate": "firebase emulators:start --import=fsData",
     "export": "firebase emulators:export fsData",
     "dev": "concurrently -n \"func,simulator,expo\" -c \"blue,green,yellow\" \"cd ./functions && npm run watch\" \"npm run simulate\" \"npm run start\""

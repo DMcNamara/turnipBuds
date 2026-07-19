@@ -29,9 +29,13 @@ Inside `functions/`:
 - `npm run watch` — `tsc --watch`, compiles `functions/src` to `functions/lib`.
 - `npm run build` — one-off `tsc` build.
 - `npm run lint` — `tslint` (runs automatically as a Firebase predeploy hook, along with build).
+- `npm test` — Jest unit tests only (`*.spec.ts`, excluding `*.integration.spec.ts`); no emulator needed.
+- `npm run test:integration` — Jest **integration** tests (`*.integration.spec.ts`, via `jest.integration.config.js`). Requires a running Firestore emulator with `FIRESTORE_EMULATOR_HOST` set — do not run it directly; use the emulator wrapper below.
 - `npm run shell` — build then `firebase functions:shell` for interactively invoking functions.
 - `npm run deploy` — `firebase deploy --only functions`.
 - `npm run logs` — `firebase functions:log`.
+
+**Running the functions integration tests** (emulator end-to-end tests for `addFriend`, `onUserAdded`, `setPredictions`): from the repo root run `yarn test:functions:integration` (or `npm run test:functions:integration`), which is `firebase emulators:exec --only firestore "npm --prefix functions run test:integration"`. The equivalent long form is `firebase emulators:exec --only firestore 'npm run test:integration'` run from inside `functions/`. Note the native-toolchain gotchas: the `stalk-market` C++ addon and the old grpc build require **Node 12** to install functions deps and run these — use `nvm use 12` first.
 
 CI (`.github/workflows/`) runs `yarn test` on push/PR to `main`.
 

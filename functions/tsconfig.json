@@ -13,5 +13,9 @@
   },
   "compileOnSave": true,
   "include": ["src"],
-  "exclude": ["src/**/*.spec.ts", "src/**/__tests__/**"]
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.integration.ts",
+    "src/**/__tests__/**"
+  ]
 }

@@ -1,0 +1,515 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stalk-market golden master: analyzePrices (a) complete week 1`] = `
+Array [
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          120,
+          120,
+        ],
+        Array [
+          160,
+          160,
+        ],
+        Array [
+          200,
+          200,
+        ],
+        Array [
+          150,
+          150,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          75,
+          75,
+        ],
+        Array [
+          70,
+          70,
+        ],
+      ],
+    ],
+    "patternIdx": -1,
+    "patternName": "All Patterns",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 0,
+    "patternName": "Fluctuating (Pattern 0)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          120,
+          120,
+        ],
+        Array [
+          160,
+          160,
+        ],
+        Array [
+          200,
+          200,
+        ],
+        Array [
+          150,
+          150,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          75,
+          75,
+        ],
+        Array [
+          70,
+          70,
+        ],
+      ],
+    ],
+    "patternIdx": 1,
+    "patternName": "Big Spike (Pattern 1)",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 2,
+    "patternName": "Decreasing (Pattern 2)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 3,
+    "patternName": "Spike (Pattern 3)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+]
+`;
+
+exports[`stalk-market golden master: analyzePrices (b) partial week (only Mon-Tue filled, rest NaN) 1`] = `
+Array [
+  Object {
+    "matches": Array [],
+    "patternIdx": -1,
+    "patternName": "All Patterns",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 0,
+    "patternName": "Fluctuating (Pattern 0)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 1,
+    "patternName": "Big Spike (Pattern 1)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 2,
+    "patternName": "Decreasing (Pattern 2)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 3,
+    "patternName": "Spike (Pattern 3)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+]
+`;
+
+exports[`stalk-market golden master: analyzePrices (c) week with previousPattern passed 1`] = `
+Array [
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          120,
+          120,
+        ],
+        Array [
+          160,
+          160,
+        ],
+        Array [
+          200,
+          200,
+        ],
+        Array [
+          150,
+          150,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          75,
+          75,
+        ],
+        Array [
+          70,
+          70,
+        ],
+      ],
+    ],
+    "patternIdx": -1,
+    "patternName": "All Patterns",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 0,
+    "patternName": "Fluctuating (Pattern 0)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          120,
+          120,
+        ],
+        Array [
+          160,
+          160,
+        ],
+        Array [
+          200,
+          200,
+        ],
+        Array [
+          150,
+          150,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          90,
+          90,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          75,
+          75,
+        ],
+        Array [
+          70,
+          70,
+        ],
+      ],
+    ],
+    "patternIdx": 1,
+    "patternName": "Big Spike (Pattern 1)",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 2,
+    "patternName": "Decreasing (Pattern 2)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 3,
+    "patternName": "Spike (Pattern 3)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+]
+`;
+
+exports[`stalk-market golden master: analyzePrices (d) decreasing-pattern week 1`] = `
+Array [
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          76,
+          76,
+        ],
+        Array [
+          72,
+          72,
+        ],
+        Array [
+          68,
+          68,
+        ],
+        Array [
+          64,
+          64,
+        ],
+        Array [
+          60,
+          60,
+        ],
+        Array [
+          56,
+          56,
+        ],
+        Array [
+          52,
+          52,
+        ],
+        Array [
+          48,
+          48,
+        ],
+        Array [
+          44,
+          44,
+        ],
+        Array [
+          40,
+          40,
+        ],
+      ],
+    ],
+    "patternIdx": -1,
+    "patternName": "All Patterns",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 0,
+    "patternName": "Fluctuating (Pattern 0)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 1,
+    "patternName": "Big Spike (Pattern 1)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+  Object {
+    "matches": Array [
+      Array [
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          100,
+          100,
+        ],
+        Array [
+          85,
+          85,
+        ],
+        Array [
+          80,
+          80,
+        ],
+        Array [
+          76,
+          76,
+        ],
+        Array [
+          72,
+          72,
+        ],
+        Array [
+          68,
+          68,
+        ],
+        Array [
+          64,
+          64,
+        ],
+        Array [
+          60,
+          60,
+        ],
+        Array [
+          56,
+          56,
+        ],
+        Array [
+          52,
+          52,
+        ],
+        Array [
+          48,
+          48,
+        ],
+        Array [
+          44,
+          44,
+        ],
+        Array [
+          40,
+          40,
+        ],
+      ],
+    ],
+    "patternIdx": 2,
+    "patternName": "Decreasing (Pattern 2)",
+    "probability": 100,
+    "probabilityPerMatch": 100,
+  },
+  Object {
+    "matches": Array [],
+    "patternIdx": 3,
+    "patternName": "Spike (Pattern 3)",
+    "probability": 0,
+    "probabilityPerMatch": 0,
+  },
+]
+`;

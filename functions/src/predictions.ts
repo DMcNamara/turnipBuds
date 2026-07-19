@@ -45,7 +45,7 @@ export const setPredictions = functions.firestore
 		return null;
 	});
 
-function getPredictionArray(week: any) {
+export function getPredictionArray(week: any) {
 	return [
 		week.islandBuyPrice,
 		week.islandBuyPrice,
@@ -64,7 +64,7 @@ function getPredictionArray(week: any) {
 	].map((val: any) => parseInt(val));
 }
 
-function getMostRecentValue(week: any) {
+export function getMostRecentValue(week: any) {
 	return (
 		getRecentValueObj(week.satPM, 'satPM') ||
 		getRecentValueObj(week.satAM, 'satAM') ||
@@ -82,7 +82,7 @@ function getMostRecentValue(week: any) {
 	);
 }
 
-function getRecentValueObj(value: number | null, time: string) {
+export function getRecentValueObj(value: number | null, time: string) {
 	if (value) {
 		return { value, time };
 	} else {
@@ -90,14 +90,23 @@ function getRecentValueObj(value: number | null, time: string) {
 	}
 }
 
-function getSaveablePrediction(prediction: StalkMarket.PriceAnalysis[0]) {
+export function getSaveablePrediction(prediction: StalkMarket.PriceAnalysis[0]) {
 	return {
 		...prediction,
 		matches: JSON.stringify(prediction.matches),
 	};
 }
 
-function pricesUpdated<T extends FirebaseFirestore.DocumentData | undefined>(
+/** The pattern with the current highest likelihood, excluding the ALL pattern */
+export function getLikeliestPattern(predictions: StalkMarket.PriceAnalysis) {
+	return predictions
+		.filter((p) => p.patternIdx !== -1) // remove the ALL pattern
+		.reduce((prev, current) =>
+			prev.probability > current.probability ? prev : current
+		);
+}
+
+export function pricesUpdated<T extends FirebaseFirestore.DocumentData | undefined>(
 	beforeWeek: T,
 	afterWeek: T
 ) {
@@ -124,11 +133,7 @@ async function updateUserWithLatestPriceInfo(
 
 	/** The pattern with the current highest likelihood */
 	const likeliestPattern = getSaveablePrediction(
-		predictions
-			.filter((p) => p.patternIdx !== -1) // remove the ALL pattern
-			.reduce((prev, current) =>
-				prev.probability > current.probability ? prev : current
-			)
+		getLikeliestPattern(predictions)
 	);
 
 	const usersCollection = firestore.collection('users');

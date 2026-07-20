@@ -1,4 +1,4 @@
-import * as StalkMarket from 'stalk-market';
+import * as StalkMarket from './stalk-market';
 import { getPredictionArray } from './predictions';
 
 /**

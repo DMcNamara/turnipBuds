@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import * as StalkMarket from 'stalk-market';
+import * as StalkMarket from './stalk-market';
 
 export const setPredictions = functions.firestore
 	.document('users/{userId}/weeks/{weekId}')

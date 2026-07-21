@@ -19,6 +19,7 @@ export function Dropdown(props: {
 	data: DropdownOption[];
 	value?: string;
 	onChange: (value: string) => void;
+	testID?: string;
 }) {
 	const [visible, setVisible] = useState(false);
 	const selected = props.data.find((option) => option.value === props.value);
@@ -33,7 +34,10 @@ export function Dropdown(props: {
 			visible={visible}
 			onDismiss={() => setVisible(false)}
 			anchor={
-				<TouchableRipple onPress={() => setVisible(true)}>
+				<TouchableRipple
+					testID={props.testID}
+					onPress={() => setVisible(true)}
+				>
 					<View pointerEvents="none">
 						<TextInput
 							label={props.label}

@@ -30,6 +30,7 @@ export function TimeZoneModal(props: Props) {
 						to show your friends what your current turnip price is.
 					</Paragraph>
 					<Dropdown
+						testID="timezone-dropdown"
 						label="Time Zone"
 						data={timeZoneOptions}
 						value={timeZone}

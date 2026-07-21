@@ -1,25 +1,47 @@
-node_modules/**/*
-.expo/*
-npm-debug.*
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+web-report/
+expo-env.d.ts
+
+# Native (managed workflow / CNG — never commit generated native projects)
+/ios
+/android
+*.orig.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-*.orig.*
-web-build/
-web-report/
 
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# typescript
+*.tsbuildinfo
+
+# env / secrets
 .env*
 !.env.example
 app.config.ts
 
 # macOS
 .DS_Store
+*.pem
 
+# firebase
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
 
-# firestore siumulator data
+# firestore emulator data
 fsData/*

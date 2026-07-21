@@ -10,11 +10,6 @@
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#66bb6a"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -36,17 +31,15 @@
         "backgroundImage": "./assets/bg.png"
       }
     },
-    "hooks": {
-      "postPublish": [
+    "plugins": [
+      [
+        "expo-splash-screen",
         {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "stalktracker",
-            "project": "stalk-tracker",
-            "authToken": "32a7c2a4b15c4d4ba5981e67106825513afb1f3541484aa4b90a22925cfab0c7"
-          }
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#66bb6a"
         }
       ]
-    }
+    ]
   }
 }

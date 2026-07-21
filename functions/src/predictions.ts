@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import * as StalkMarket from './stalk-market';
 
 export const setPredictions = functions.firestore
@@ -106,7 +106,7 @@ export function getLikeliestPattern(predictions: StalkMarket.PriceAnalysis) {
 		);
 }
 
-export function pricesUpdated<T extends FirebaseFirestore.DocumentData | undefined>(
+export function pricesUpdated<T extends admin.firestore.DocumentData | undefined>(
 	beforeWeek: T,
 	afterWeek: T
 ) {

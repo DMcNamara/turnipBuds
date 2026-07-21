@@ -1,11 +1,12 @@
 name: Test
 
-# Triggers the workflow on push or pull request events for the main branch
+# Triggers on push/PR to main and to the Phase 4 Expo-upgrade integration branch,
+# so the module-by-module port gets CI before it merges to main.
 on:
   push:
-    branches: [main]
+    branches: [main, phase-4/expo-latest]
   pull_request:
-    branches: [main]
+    branches: [main, phase-4/expo-latest]
 
 jobs:
   app:

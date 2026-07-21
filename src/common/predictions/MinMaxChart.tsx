@@ -1,12 +1,15 @@
 import { zip } from 'lodash';
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import {
-	LineChart,
-	LineChartData,
-	LineChartProps,
-} from 'react-native-chart-kit';
+import { LineChart } from 'react-native-chart-kit';
 import { Text } from 'react-native-paper';
+
+// react-native-chart-kit 7 no longer re-exports these type names from the
+// package root, so derive them from the exported `LineChart` component instead.
+// TODO(#109): confirm the chart actually renders under react-native-svg 15 in a
+// dev build; the charts follow-up owns any visual/runtime fixes.
+type LineChartProps = React.ComponentProps<typeof LineChart>;
+type LineChartData = LineChartProps['data'];
 import { Pattern } from '../../constants';
 import { WeekPrice } from '../../store/collections';
 

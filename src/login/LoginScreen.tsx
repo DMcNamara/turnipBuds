@@ -9,7 +9,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import { Toast } from '../common/Toast';
 import { handlePostLogin } from '../store/auth/auth.service';
 import { Theme } from '../theme';
@@ -107,7 +107,7 @@ export function LoginScreen() {
 			<Button
 				icon="google"
 				mode="contained"
-				color={Theme.colors.accent}
+				buttonColor={Theme.colors.accent}
 				onPress={() => login()}
 				loading={loading}
 			>

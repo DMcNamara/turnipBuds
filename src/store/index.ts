@@ -1,8 +1,8 @@
 import Constants from 'expo-constants';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/functions';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/functions';
 import { AsyncStorage } from 'react-native';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import {
@@ -50,21 +50,16 @@ if (useEmulator) {
 firebase.initializeApp(fbConfig);
 
 if (useEmulator) {
-	const firestoreSettings = {
-		host: 'localhost:8081',
-		ssl: false,
-	};
+	console.debug('Using Firestore emulator: localhost:8081');
 
-	console.debug(`Using Firestore emulator: ${firestoreSettings.host}`);
-
-	firebase.firestore().settings(firestoreSettings);
+	firebase.firestore().useEmulator('localhost', 8081);
 } else {
 	firebase.firestore();
 }
 
 const functions = firebase.functions();
 if (useEmulator) {
-	functions.useFunctionsEmulator('http://localhost:5001');
+	functions.useEmulator('localhost', 5001);
 }
 
 // Cloud Functions

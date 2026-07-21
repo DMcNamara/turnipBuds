@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/functions';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import {
 	FirestoreReducer,
@@ -28,7 +28,7 @@ const {
 	FB_MESSAGING_SENDER_ID,
 	FB_PROJECT_ID,
 	FB_STORAGE_BUCKET,
-} = Constants.manifest.extra;
+} = Constants.expoConfig!.extra!;
 
 const useEmulator = __DEV__;
 

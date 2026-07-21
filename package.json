@@ -20,7 +20,12 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/functions/",
-      "<rootDir>/src/"
+      "<rootDir>/src/common/predictions/SummaryTable.spec.tsx",
+      "<rootDir>/src/common/Toast.spec.tsx",
+      "<rootDir>/src/common/week-input/WeekInput.spec.tsx",
+      "<rootDir>/src/friends/add-friends-modal/AddFriendModal.spec.tsx",
+      "<rootDir>/src/friends/FriendCard.spec.tsx",
+      "<rootDir>/src/settings/TimezoneModal.spec.tsx"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -31,17 +36,33 @@
     ]
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "date-fns": "^2.12.0",
     "expo": "~57.0.7",
+    "expo-apple-authentication": "~57.0.1",
+    "expo-constants": "~57.0.6",
+    "expo-crypto": "~57.0.1",
+    "expo-localization": "~57.0.1",
     "expo-splash-screen": "~57.0.4",
     "expo-status-bar": "~57.0.1",
+    "firebase": "^9.23.0",
+    "lodash": "^4.17.15",
     "react": "19.2.3",
-    "react-native": "0.86.0"
+    "react-native": "0.86.0",
+    "react-redux": "^7.2.0",
+    "react-redux-firebase": "^3.11.0",
+    "redux": "^4.0.5",
+    "redux-firestore": "^0.15.2",
+    "redux-persist": "^6.0.0",
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "@react-native/jest-preset": "0.86.0",
     "@testing-library/react-native": "^14.0.0",
     "@types/jest": "^29.5.0",
+    "@types/lodash": "^4.14.150",
     "@types/react": "~19.2.2",
+    "@types/react-redux": "^7.1.7",
     "concurrently": "^9.1.0",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~57.0.0",

@@ -26,7 +26,7 @@ jobs:
         run: yarn test
 
   functions:
-    name: Functions (build)
+    name: Functions (build + test)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,19 +42,22 @@ jobs:
 
       - name: Install dependencies
         working-directory: functions
-        run: npm install
+        run: npm ci
 
       - name: Build
         working-directory: functions
         run: npm run build
 
-      # Only run tests if a test script exists (the functions-tests issue may
-      # not have landed yet). npm exits non-zero on a missing script, so guard it.
-      - name: Test
+      - name: Unit tests
         working-directory: functions
-        run: |
-          if node -e "process.exit(require('./package.json').scripts && require('./package.json').scripts.test ? 0 : 1)"; then
-            npm test
-          else
-            echo "No functions test script defined; skipping."
-          fi
+        run: npm test
+
+      # Integration tests run the compiled triggers against the Firestore
+      # emulator, started via firebase-tools (a functions devDependency). The
+      # emulator config lives in the repo-root firebase.json, so run from the
+      # repo root; a demo-* project id keeps it fully offline (no credentials).
+      - name: Integration tests (Firestore emulator)
+        run: >
+          functions/node_modules/.bin/firebase emulators:exec
+          --only firestore --project demo-turnipbuds
+          "cd functions && npm run test:integration"

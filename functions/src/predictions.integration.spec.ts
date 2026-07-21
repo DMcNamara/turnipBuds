@@ -13,7 +13,7 @@ import { assertEmulator, clearFirestore } from './emulator.integration';
  *   firebase emulators:exec --only firestore 'npm run test:integration'
  */
 
-// tslint:disable-next-line: no-var-requires
+// firebase-functions-test is CommonJS and is invoked as a factory.
 const functionsTest = require('firebase-functions-test')();
 
 const setPredictions = functionsTest.wrap(PredictionFunctions.setPredictions);

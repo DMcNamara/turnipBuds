@@ -15,7 +15,7 @@ import { assertEmulator, clearFirestore } from './emulator.integration';
  * `firebase-admin` app that `index.ts` initializes.
  */
 
-// tslint:disable-next-line: no-var-requires
+// firebase-functions-test is CommonJS and is invoked as a factory.
 const functionsTest = require('firebase-functions-test')();
 
 const db = () => admin.firestore();

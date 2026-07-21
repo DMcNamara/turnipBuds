@@ -19,13 +19,7 @@
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "<rootDir>/functions/",
-      "<rootDir>/src/common/predictions/SummaryTable.spec.tsx",
-      "<rootDir>/src/common/Toast.spec.tsx",
-      "<rootDir>/src/common/week-input/WeekInput.spec.tsx",
-      "<rootDir>/src/friends/add-friends-modal/AddFriendModal.spec.tsx",
-      "<rootDir>/src/friends/FriendCard.spec.tsx",
-      "<rootDir>/src/settings/TimezoneModal.spec.tsx"
+      "<rootDir>/functions/"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -33,11 +27,17 @@
       "js",
       "jsx",
       "json"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^react-native-material-dropdown$": "<rootDir>/jest/stubs/react-native-material-dropdown.ts"
+    }
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@sentry/react-native": "~7.11.0",
+    "compact-timezone-list": "^1.0.6",
     "date-fns": "^2.12.0",
+    "date-fns-tz": "^2.0.0",
     "expo": "~57.0.7",
     "expo-apple-authentication": "~57.0.1",
     "expo-constants": "~57.0.6",
@@ -49,6 +49,10 @@
     "lodash": "^4.17.15",
     "react": "19.2.3",
     "react-native": "0.86.0",
+    "react-native-chart-kit": "^7.0.2",
+    "react-native-paper": "^5.15.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-svg": "15.15.4",
     "react-redux": "^7.2.0",
     "react-redux-firebase": "^3.11.0",
     "redux": "^4.0.5",
@@ -58,7 +62,7 @@
   },
   "devDependencies": {
     "@react-native/jest-preset": "0.86.0",
-    "@testing-library/react-native": "^14.0.0",
+    "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.0",
     "@types/lodash": "^4.14.150",
     "@types/react": "~19.2.2",
@@ -72,6 +76,7 @@
     "jest": "^29.7.0",
     "jest-expo": "~57.0.0",
     "prettier": "^3.0.0",
+    "react-test-renderer": "19.2.3",
     "typescript": "~6.0.3"
   },
   "private": true

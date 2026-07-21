@@ -168,7 +168,7 @@ function HalfDayInput(props: {
 			onChangeText={onChange}
 			keyboardType="number-pad"
 			maxLength={3}
-			autoCompleteType="off"
+			autoComplete="off"
 			autoCorrect={false}
 		/>
 	);

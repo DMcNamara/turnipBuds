@@ -6,7 +6,7 @@ import { Button, Caption, Card, IconButton, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
 import { actionTypes as fat } from 'redux-firestore';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import { Toast } from '../common/Toast';
 import { useTypedSelector } from '../store';
 import { setCurrentUserAction } from '../store/auth/auth.actions';
@@ -56,9 +56,9 @@ function Settings() {
 				console.log('logged out');
 				dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
 				dispatch(setCurrentUserAction(null));
-				Sentry.configureScope((scope) => {
-					scope.setUser(null);
-				});
+				// `configureScope` was removed in @sentry/react-native v6+;
+				// clear the user on the global scope directly.
+				Sentry.setUser(null);
 			},
 			(err) => console.log('error', err)
 		);
@@ -66,8 +66,8 @@ function Settings() {
 
 	const timeZoneDisplay = (tzCode: string | undefined) => {
 		if (tzCode) {
-			const timeZone = timezones.find((tz: any) => tz.tzCode === tzCode);
-			return timeZone.label || '-';
+			const timeZone = timezones.find((tz) => tz.tzCode === tzCode);
+			return timeZone?.label || '-';
 		} else {
 			return '-';
 		}

@@ -2,9 +2,9 @@ import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Dropdown } from 'react-native-material-dropdown';
 import { Card, Subheading, TextInput, Title } from 'react-native-paper';
 import { useFirestore } from 'react-redux-firebase';
+import { Dropdown } from '../common/Dropdown';
 import { dateInWords, getSunday } from '../common/utils';
 import { WeekInput } from '../common/week-input/WeekInput';
 import { Pattern } from '../constants';
@@ -99,7 +99,7 @@ function Week(props: Props) {
 						}
 						keyboardType="number-pad"
 						maxLength={3}
-						autoCompleteType="off"
+						autoComplete="off"
 						autoCorrect={false}
 					/>
 				</Card.Content>
@@ -111,7 +111,7 @@ function Week(props: Props) {
 						label="Previous Week's Pattern"
 						data={patternOptions}
 						value={weekPrice.previousPattern?.toString()}
-						onChangeText={(value) =>
+						onChange={(value) =>
 							props.onChange(
 								weekPrice.id,
 								'previousPattern',

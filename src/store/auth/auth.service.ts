@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import { omit } from 'lodash';
 import { DispatchProp } from 'react-redux';
 import { constants, useFirebase } from 'react-redux-firebase';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import { User } from '../collections';
 import { toastAction } from '../toast/toast.actions';
 import { setCurrentUserAction } from './auth.actions';
@@ -44,11 +44,11 @@ export async function handlePostLogin(
 			})
 			.then((user) => {
 				dispatch(setCurrentUserAction(uid));
-				Sentry.configureScope((scope) => {
-					scope.setUser({
-						email: user.email as string,
-						id: uid,
-					});
+				// `configureScope` was removed in @sentry/react-native v6+;
+				// set the user on the global scope directly.
+				Sentry.setUser({
+					email: user.email as string,
+					id: uid,
 				});
 			});
 	}

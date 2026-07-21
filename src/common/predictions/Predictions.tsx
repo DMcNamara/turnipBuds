@@ -1,7 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
-import { Linking } from 'expo';
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Linking, ScrollView, StyleSheet } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { compose } from 'redux';

@@ -1,7 +1,7 @@
 import timezones from 'compact-timezone-list';
 import React, { useState } from 'react';
-import { Dropdown } from 'react-native-material-dropdown';
 import { Button, Dialog, Paragraph, Portal } from 'react-native-paper';
+import { Dropdown } from '../common/Dropdown';
 
 interface Props {
 	visible: boolean;
@@ -32,8 +32,8 @@ export function TimeZoneModal(props: Props) {
 					<Dropdown
 						label="Time Zone"
 						data={timeZoneOptions}
-						value={props.currentTimeZone}
-						onChangeText={(value) => setTimeZone(value)}
+						value={timeZone}
+						onChange={(value) => setTimeZone(value)}
 					/>
 				</Dialog.Content>
 				<Dialog.Actions>

@@ -40,7 +40,7 @@ export function AddFriendModal({ visible, onHide, onSave }: Props) {
 						value={email}
 						onChangeText={(text) => setEmail(text)}
 						autoCapitalize="none"
-						autoCompleteType="email"
+						autoComplete="email"
 						autoFocus
 						keyboardType="email-address"
 						textContentType="emailAddress"

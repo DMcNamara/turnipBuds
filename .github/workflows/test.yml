@@ -16,6 +16,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
+          # The app is still Expo 37 / React 16.9, so this job runs on the
+          # frontend Node pinned in the repo-root .nvmrc (14.x). The runtime
+          # move to a newer Node belongs to a later phase. This job now
+          # installs cleanly because the Firebase JS SDK is on v9 (gRPC-Web,
+          # no native grpc addon) — that was the only thing that couldn't
+          # build on modern toolchains and previously broke the install.
           node-version-file: .nvmrc
           cache: yarn
 

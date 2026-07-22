@@ -44,8 +44,6 @@ export async function handlePostLogin(
 			})
 			.then((user) => {
 				dispatch(setCurrentUserAction(uid));
-				// `configureScope` was removed in @sentry/react-native v6+;
-				// set the user on the global scope directly.
 				Sentry.setUser({
 					email: user.email as string,
 					id: uid,

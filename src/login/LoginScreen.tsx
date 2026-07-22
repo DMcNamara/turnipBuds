@@ -1,7 +1,5 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
-import Constants from 'expo-constants';
 import * as Crypto from 'expo-crypto';
-import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, { useEffect, useState } from 'react';
@@ -13,19 +11,6 @@ import * as Sentry from '@sentry/react-native';
 import { Toast } from '../common/Toast';
 import { handlePostLogin } from '../store/auth/auth.service';
 import { Theme } from '../theme';
-
-const {
-	GOOGLE_ANDROID_CLIENT_ID,
-	GOOGLE_ANDROID_STANDALONE_CLIENT_ID,
-	GOOGLE_IOS_CLIENT_ID,
-	GOOGLE_IOS_STANDALONE_CLIENT_ID,
-} = Constants.manifest.extra;
-const config: Google.GoogleLogInConfig = {
-	iosClientId: GOOGLE_IOS_CLIENT_ID,
-	iosStandaloneAppClientId: GOOGLE_IOS_STANDALONE_CLIENT_ID,
-	androidClientId: GOOGLE_ANDROID_CLIENT_ID,
-	androidStandaloneAppClientId: GOOGLE_ANDROID_STANDALONE_CLIENT_ID,
-};
 
 export function LoginScreen() {
 	const dispatch = useDispatch();
@@ -41,22 +26,15 @@ export function LoginScreen() {
 		})();
 	});
 
-	async function login() {
-		setLoading(true);
-		const res = await Google.logInAsync(config);
-		if (res.type === 'success') {
-			const credential = firebase.auth.GoogleAuthProvider.credential(
-				res.idToken,
-				res.accessToken
-			);
-
-			const userData = await fb.login({ credential, provider: 'google' });
-
-			if (userData) {
-				await handlePostLogin(dispatch, fb, userData);
-				setLoading(false);
-			}
-		}
+	// TODO(#108): wire Google sign-in via expo-auth-session.
+	//
+	// The old flow used `expo-google-app-auth`, which was removed from the Expo
+	// SDK and blocks bundling, so it has been deleted here. This button is a
+	// temporary disabled placeholder — the real Google sign-in migration to
+	// `expo-auth-session` (and re-reading the Google client IDs from
+	// `Constants.expoConfig?.extra`) is issue #108, not this navigation issue.
+	function login() {
+		// intentional no-op until #108
 	}
 
 	async function appleLogin() {
@@ -90,7 +68,7 @@ export function LoginScreen() {
 					setLoading(false);
 				}
 			}
-		} catch (e) {
+		} catch (e: any) {
 			setLoading(false);
 			if (e.code !== 'ERR_CANCELED') {
 				Sentry.captureException(e);
@@ -104,14 +82,16 @@ export function LoginScreen() {
 				source={require('../../assets/splash.png')}
 				style={styles.image}
 			/>
+			{/* TODO(#108): re-enable once Google sign-in is on expo-auth-session */}
 			<Button
 				icon="google"
 				mode="contained"
 				buttonColor={Theme.colors.accent}
-				onPress={() => login()}
+				onPress={login}
 				loading={loading}
+				disabled
 			>
-				Sign in with Google
+				Sign in with Google (coming soon)
 			</Button>
 			{showAppleLogin && (
 				<>

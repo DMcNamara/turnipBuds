@@ -8,11 +8,8 @@ export interface DropdownOption {
 }
 
 /**
- * Paper `Menu`-backed replacement for the dead `react-native-material-dropdown`.
- *
- * Presents a read-only text field that opens a Menu of options on press,
- * preserving the old `data` / `value` / `onChangeText`-style contract (a single
- * string value out via `onChange`).
+ * A single-select dropdown: a read-only text field that opens a Paper `Menu`
+ * of options on press and emits the chosen value via `onChange`.
  */
 export function Dropdown(props: {
 	label: string;

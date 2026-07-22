@@ -56,8 +56,6 @@ function Settings() {
 				console.log('logged out');
 				dispatch({ type: fat.CLEAR_DATA, actionKey: 'data' });
 				dispatch(setCurrentUserAction(null));
-				// `configureScope` was removed in @sentry/react-native v6+;
-				// clear the user on the global scope directly.
 				Sentry.setUser(null);
 			},
 			(err) => console.log('error', err)

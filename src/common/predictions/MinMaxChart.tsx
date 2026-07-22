@@ -4,10 +4,8 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { Text } from 'react-native-paper';
 
-// react-native-chart-kit 7 no longer re-exports these type names from the
-// package root, so derive them from the exported `LineChart` component instead.
-// TODO(#109): confirm the chart actually renders under react-native-svg 15 in a
-// dev build; the charts follow-up owns any visual/runtime fixes.
+// chart-kit doesn't export these type names, so derive them from the component.
+// TODO(#109): confirm the chart renders under react-native-svg 15 in a dev build.
 type LineChartProps = React.ComponentProps<typeof LineChart>;
 type LineChartData = LineChartProps['data'];
 import { Pattern } from '../../constants';

@@ -100,7 +100,7 @@ function HomeNavigatorComponent(props: Props) {
 		return <></>;
 	}
 	return (
-		<Tab.Navigator tabBarOptions={TabTheme}>
+		<Tab.Navigator screenOptions={TabTheme}>
 			<Tab.Screen
 				name="Home"
 				component={Home}

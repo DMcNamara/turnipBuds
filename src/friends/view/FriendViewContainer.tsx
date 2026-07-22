@@ -77,7 +77,7 @@ function Component(props: ComponentProps) {
 				empty={isLoaded(friendsWeek) && isEmpty(friendsWeek)}
 				message="Your friend has no data for this week!"
 			>
-				<Tab.Navigator tabBarOptions={TabTheme}>
+				<Tab.Navigator screenOptions={TabTheme}>
 					<Tab.Screen
 						name="View"
 						component={FriendView}

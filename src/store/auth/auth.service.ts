@@ -31,7 +31,12 @@ export async function handlePostLogin(
 			.then((profileSnap) => {
 				const profile = profileSnap.data() as User | undefined;
 				if (!profile || !profile.timezone) {
-					user.timezone = Localization.timezone;
+					// expo-localization (SDK 57) removed the top-level
+					// `Localization.timezone` string in favour of per-calendar
+					// data. `getCalendars()` is typed to always return at least
+					// one entry; `timeZone` can be null (e.g. on web).
+					user.timezone =
+						Localization.getCalendars()[0]?.timeZone ?? undefined;
 					updateUser = true;
 				}
 				if (user && (!profile || updateUser)) {

@@ -22,7 +22,7 @@ export type FriendsIndexContainerScreenList = {
 const Tab = createMaterialTopTabNavigator<FriendsIndexContainerScreenList>();
 function Container(props: FriendsIndexContainerProps) {
 	return (
-		<Tab.Navigator tabBarOptions={TabTheme}>
+		<Tab.Navigator screenOptions={TabTheme}>
 			<Tab.Screen name="Friends" component={FriendsIndex} />
 			<Tab.Screen name="Requests" component={FriendRequestIndex} />
 		</Tab.Navigator>

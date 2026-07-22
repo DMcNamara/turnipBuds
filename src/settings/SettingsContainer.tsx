@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import * as Clipboard from 'expo-clipboard';
 import timezones from 'compact-timezone-list';
 import React, { useState } from 'react';
-import { Clipboard, Linking, StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { Button, Caption, Card, IconButton, Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { useFirebase } from 'react-redux-firebase';
@@ -43,9 +44,11 @@ function Settings() {
 		(state) => state.firestore.data.profile
 	);
 
-	const copyEmail = () => {
+	const copyEmail = async () => {
 		if (user?.email) {
-			Clipboard.setString(user?.email || '');
+			// `Clipboard` from react-native was removed in RN 0.86; the
+			// community `expo-clipboard` module replaces it with an async API.
+			await Clipboard.setStringAsync(user?.email || '');
 			dispatch(toastAction('Email Copied!'));
 		}
 	};

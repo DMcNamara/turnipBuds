@@ -1,5 +1,8 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Google from 'expo-auth-session/providers/google';
+import Constants from 'expo-constants';
 import * as Crypto from 'expo-crypto';
+import * as WebBrowser from 'expo-web-browser';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +15,27 @@ import { Toast } from '../common/Toast';
 import { handlePostLogin } from '../store/auth/auth.service';
 import { Theme } from '../theme';
 
+// Lets the browser-based auth flow settle back into the app after redirect.
+WebBrowser.maybeCompleteAuthSession();
+
+const {
+	GOOGLE_ANDROID_CLIENT_ID,
+	GOOGLE_ANDROID_STANDALONE_CLIENT_ID,
+	GOOGLE_IOS_CLIENT_ID,
+	GOOGLE_IOS_STANDALONE_CLIENT_ID,
+} = Constants.expoConfig?.extra ?? {};
+
+// The old flow carried two client IDs per platform: one registered against Expo
+// Go's bundle identifier and a "standalone" one against ours. This app depends
+// on native modules, so it only ever runs as a dev/production build under
+// com.dmcnamara.turnipbuds — the standalone IDs are the live ones. The Expo Go
+// IDs stay as a fallback so an incompletely-filled app.config.ts still works.
+const googleConfig = {
+	iosClientId: GOOGLE_IOS_STANDALONE_CLIENT_ID || GOOGLE_IOS_CLIENT_ID,
+	androidClientId:
+		GOOGLE_ANDROID_STANDALONE_CLIENT_ID || GOOGLE_ANDROID_CLIENT_ID,
+};
+
 export function LoginScreen() {
 	const dispatch = useDispatch();
 	const fb = useFirebase();
@@ -19,22 +43,66 @@ export function LoginScreen() {
 	const [loading, setLoading] = useState(false);
 	const [showAppleLogin, setShowAppleLogin] = useState(false);
 
+	const [request, response, promptAsync] =
+		Google.useIdTokenAuthRequest(googleConfig);
+
 	useEffect(() => {
 		(async () => {
 			const available = await AppleAuthentication.isAvailableAsync();
 			setShowAppleLogin(available);
 		})();
-	});
+	}, []);
 
-	// TODO(#108): wire Google sign-in via expo-auth-session.
-	//
-	// The old flow used `expo-google-app-auth`, which was removed from the Expo
-	// SDK and blocks bundling, so it has been deleted here. This button is a
-	// temporary disabled placeholder — the real Google sign-in migration to
-	// `expo-auth-session` (and re-reading the Google client IDs from
-	// `Constants.expoConfig?.extra`) is issue #108, not this navigation issue.
-	function login() {
-		// intentional no-op until #108
+	useEffect(() => {
+		if (!response) {
+			return;
+		}
+
+		if (response.type !== 'success') {
+			// Dismissed, cancelled, or errored — drop back out of the spinner.
+			setLoading(false);
+			if (response.type === 'error' && response.error) {
+				Sentry.captureException(response.error);
+			}
+			return;
+		}
+
+		// On native this fires twice: once with the raw authorization code, and
+		// again once the hook has exchanged it. Only the second pass carries a
+		// token we can hand to Firebase.
+		const idToken = response.params?.id_token;
+		if (!idToken) {
+			return;
+		}
+
+		(async () => {
+			try {
+				const credential = firebase.auth.GoogleAuthProvider.credential(
+					idToken,
+					response.params?.access_token
+				);
+
+				const userData = await fb.login({
+					credential,
+					provider: 'google',
+				});
+
+				if (userData) {
+					await handlePostLogin(dispatch, fb, userData);
+				}
+			} catch (e: any) {
+				Sentry.captureException(e);
+			} finally {
+				setLoading(false);
+			}
+		})();
+		// `fb` and `dispatch` are stable for the life of the screen.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [response]);
+
+	async function login() {
+		setLoading(true);
+		await promptAsync();
 	}
 
 	async function appleLogin() {
@@ -82,16 +150,15 @@ export function LoginScreen() {
 				source={require('../../assets/splash.png')}
 				style={styles.image}
 			/>
-			{/* TODO(#108): re-enable once Google sign-in is on expo-auth-session */}
 			<Button
 				icon="google"
 				mode="contained"
 				buttonColor={Theme.colors.accent}
 				onPress={login}
 				loading={loading}
-				disabled
+				disabled={!request || loading}
 			>
-				Sign in with Google (coming soon)
+				Sign in with Google
 			</Button>
 			{showAppleLogin && (
 				<>

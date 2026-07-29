@@ -3,25 +3,12 @@ import { ConfigContext, ExpoConfig } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
-	android: {
-		...config.android,
-		config: {
-			googleSignIn: {
-				apiKey: '',
-				certificateHash: '',
-			},
-		},
-	},
-	ios: {
-		...config.ios,
-		config: {
-			googleSignIn: {
-				reservedClientId: '',
-			},
-		},
-	},
-	// set config vars here
-	extras: {
+	// `ConfigContext` types these as optional, but `ExpoConfig` requires them;
+	// they are always set in app.json.
+	name: config.name ?? 'Turnip Buds',
+	slug: config.slug ?? 'stalk-tracker',
+	// Read at runtime via `Constants.expoConfig.extra` (see src/store/index.ts).
+	extra: {
 		FB_API_KEY: '',
 		FB_AUTH_DOMAIN: '',
 		FB_DATABASE_URL: '',
@@ -31,6 +18,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		FB_APP_ID: '',
 		FB_MEASUREMENT_ID: '',
 
+		// Google OAuth client IDs, from the Google Cloud console.
+		//
+		// Sign-in uses expo-auth-session, whose native redirect URI is
+		// `com.dmcnamara.turnipbuds:/oauthredirect` — derived from the app's own
+		// bundle identifier / package name, which `app.json` registers as a URL
+		// scheme. So the iOS and Android OAuth clients must be registered
+		// against that bundle id / package name.
+		//
+		// The *_STANDALONE_* IDs are the ones actually used: this app depends on
+		// native modules, so it never runs in Expo Go. The non-standalone IDs
+		// were the Expo Go clients and are kept only as a fallback.
 		GOOGLE_ANDROID_CLIENT_ID: '',
 		GOOGLE_ANDROID_STANDALONE_CLIENT_ID: '',
 		GOOGLE_IOS_CLIENT_ID: '',

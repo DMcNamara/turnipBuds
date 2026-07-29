@@ -50,9 +50,9 @@ if (useEmulator) {
 firebase.initializeApp(fbConfig);
 
 if (useEmulator) {
-	console.debug('Using Firestore emulator: localhost:8081');
+	console.debug('Using Firestore emulator: localhost:8080');
 
-	firebase.firestore().useEmulator('localhost', 8081);
+	firebase.firestore().useEmulator('localhost', 8080);
 } else {
 	firebase.firestore();
 }
